@@ -374,10 +374,7 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
   @override
   late final GeneratedColumn<String> version = GeneratedColumn<String>(
       'version', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 32),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, version];
   @override
@@ -545,8 +542,6 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
   @override
   late final GeneratedColumn<String> bookName = GeneratedColumn<String>(
       'book_name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
@@ -835,8 +830,6 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
   @override
   late final GeneratedColumn<String> verseText = GeneratedColumn<String>(
       'verse_text', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(
-          minTextLength: 0, maxTextLength: 2048),
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
@@ -1055,18 +1048,12 @@ class $PrayersTable extends Prayers with TableInfo<$PrayersTable, PrayerDB> {
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(
-          minTextLength: 0, maxTextLength: 2048),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _prayerTextMeta = const VerificationMeta('prayerText');
   @override
   late final GeneratedColumn<String> prayerText = GeneratedColumn<String>(
       'prayer_text', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(
-          minTextLength: 0, maxTextLength: 2048),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, name, prayerText];
   @override

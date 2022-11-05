@@ -15,14 +15,29 @@ class Settings extends Table {
 @DataClassName('BibleDB')
 class Bibles extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get version => text().withLength(min: 0, max: 32)();
+  TextColumn get language => text()();
+  TextColumn get name => text()();
+  TextColumn get abr => text()();
+}
+
+@DataClassName('BibleBookDB')
+class BibleBooks extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get bibleID => integer().references(Bibles, #id)();
+  IntColumn get bookID => integer().references(Books, #id)();
 }
 
 @DataClassName('BookDB')
 class Books extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get bookName =>
-      text().withDefault(const Constant('')).withLength(min: 0, max: 32)();
+  TextColumn get bookName => text().withDefault(const Constant(''))();
+}
+
+@DataClassName('BookVerseDB')
+class BookVerses extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get bookID => integer().references(Books, #id)();
+  IntColumn get verseID => integer().references(Verses, #id)();
 }
 
 @DataClassName('VerseDB')
@@ -30,17 +45,12 @@ class Verses extends Table {
   // PrimaryKey
   IntColumn get id => integer().autoIncrement()();
 
-  //version
-  IntColumn get version => integer().references(Bibles, #id)();
-  //bookID
-  IntColumn get book => integer().references(Books, #id)();
   //chapter
   IntColumn get chapter => integer().withDefault(const Constant(0))();
   //verse
   IntColumn get verse => integer().withDefault(const Constant(0))();
   //text
-  TextColumn get verseText =>
-      text().withDefault(const Constant('')).withLength(min: 0, max: 2048)();
+  TextColumn get verseText => text().withDefault(const Constant(''))();
 }
 
 // Data
@@ -49,9 +59,9 @@ class Prayers extends Table {
   // PrimaryKey
   IntColumn get id => integer().autoIncrement()();
   //name
-  TextColumn get name => text().withLength(min: 0, max: 2048)();
+  TextColumn get name => text()();
   //text
-  TextColumn get prayerText => text().withLength(min: 0, max: 2048)();
+  TextColumn get prayerText => text()();
 }
 
 // @DataClassName('BookVerseDB')
@@ -82,7 +92,9 @@ class Prayers extends Table {
 @DriftDatabase(tables: [
   Settings,
   Bibles,
+  BibleBooks,
   Books,
+  BookVerses,
   Verses,
   Prayers,
 ])
@@ -168,7 +180,70 @@ class SharedDatabase extends _$SharedDatabase {
           "3 John",
           "Jude",
           "Revelation",
+          "Gênesis",
+          "Êxodo",
+          "Levítico",
+          "Números",
+          "Deuteronômio",
+          "Josué",
+          "Juízes",
+          "Rute",
+          "1 Reis",
+          "2 Reis",
+          "1 Crônicas",
+          "2 Crônicas",
+          "Esdras",
+          "Neemias",
+          "Ester",
+          "Jó",
+          "Salmos",
+          "Provérbios",
+          "Eclesiastes",
+          "Cânticos",
+          "Isaías",
+          "Jeremias",
+          "Lamentações de Jeremias",
+          "Ezequiel",
+          "Oséias",
+          "Amós",
+          "Obadias",
+          "Jonas",
+          "Miquéias",
+          "Naum",
+          "Habacuque",
+          "Sofonias",
+          "Ageu",
+          "Zacarias",
+          "Malaquias",
+          "Mateus",
+          "Marcos",
+          "Lucas",
+          "João",
+          "Atos",
+          "Romanos",
+          "1 Coríntios",
+          "2 Coríntios",
+          "Gálatas",
+          "Efésios",
+          "Filipenses",
+          "Colossenses",
+          "1 Tessalonicenses",
+          "2 Tessalonicenses",
+          "1 Timóteo",
+          "2 Timóteo",
+          "Tito",
+          "Filemom",
+          "Hebreus",
+          "Tiago",
+          "1 Pedro",
+          "2 Pedro",
+          "1 João",
+          "2 João",
+          "3 João",
+          "Judas",
+          "Apocalipse",
         ];
+
         for (var book in bibleBooks) {
           b.insert(books, BooksCompanion(bookName: Value(book)));
         }
