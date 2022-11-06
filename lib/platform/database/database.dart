@@ -9,7 +9,7 @@ class Settings extends Table {
       integer().autoIncrement().withDefault(const Constant(1))();
   IntColumn get theme => integer().withDefault(const Constant(0))();
   IntColumn get color => integer().withDefault(const Constant(0xFF000000))();
-  BoolColumn get darkMode => boolean().withDefault(const Constant(false))();
+  BoolColumn get darkmode => boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('BibleDB')
@@ -30,7 +30,7 @@ class BibleBooks extends Table {
 @DataClassName('BookDB')
 class Books extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get bookName => text().withDefault(const Constant(''))();
+  TextColumn get name => text().withDefault(const Constant(''))();
 }
 
 @DataClassName('BookVerseDB')
@@ -106,150 +106,6 @@ class SharedDatabase extends _$SharedDatabase {
   // Migrations are covered later in the documentation.
   @override
   int get schemaVersion => 1;
-
-  @override
-  MigrationStrategy get migration {
-    return MigrationStrategy(onCreate: (Migrator m) async {
-      //create all tables
-      await m.createAll();
-      await batch((b) {
-        const bibleBooks = [
-          "Genesis",
-          "Exodus",
-          "Leviticus",
-          "Numbers",
-          "Deuteronomy",
-          "Joshua",
-          "Judges",
-          "Ruth",
-          "1 Samuel",
-          "2 Samuel",
-          "1 Kings",
-          "2 Kings",
-          "1 Chronicles",
-          "2 Chronicles",
-          "Ezra",
-          "Nehemiah",
-          "Esther",
-          "Job",
-          "Psalms",
-          "Proverbs",
-          "Ecclesiastes",
-          "Song of Solomon",
-          "Isaiah",
-          "Jeremiah",
-          "Lamentations",
-          "Ezekiel",
-          "Daniel",
-          "Hosea",
-          "Joel",
-          "Amos",
-          "Obadiah",
-          "Jonah",
-          "Micah",
-          "Nahum",
-          "Habakkuk",
-          "Zephaniah",
-          "Haggai",
-          "Zechariah",
-          "Malachi",
-          "Matthew",
-          "Mark",
-          "Luke",
-          "John",
-          "Acts",
-          "Romans",
-          "1 Corinthians",
-          "2 Corinthians",
-          "Galatians",
-          "Ephesians",
-          "Philippians",
-          "Colossians",
-          "1 Thessalonians",
-          "2 Thessalonians",
-          "1 Timothy",
-          "2 Timothy",
-          "Titus",
-          "Philemon",
-          "Hebrews",
-          "James",
-          "1 Peter",
-          "2 Peter",
-          "1 John",
-          "2 John",
-          "3 John",
-          "Jude",
-          "Revelation",
-          "Gênesis",
-          "Êxodo",
-          "Levítico",
-          "Números",
-          "Deuteronômio",
-          "Josué",
-          "Juízes",
-          "Rute",
-          "1 Reis",
-          "2 Reis",
-          "1 Crônicas",
-          "2 Crônicas",
-          "Esdras",
-          "Neemias",
-          "Ester",
-          "Jó",
-          "Salmos",
-          "Provérbios",
-          "Eclesiastes",
-          "Cânticos",
-          "Isaías",
-          "Jeremias",
-          "Lamentações de Jeremias",
-          "Ezequiel",
-          "Oséias",
-          "Amós",
-          "Obadias",
-          "Jonas",
-          "Miquéias",
-          "Naum",
-          "Habacuque",
-          "Sofonias",
-          "Ageu",
-          "Zacarias",
-          "Malaquias",
-          "Mateus",
-          "Marcos",
-          "Lucas",
-          "João",
-          "Atos",
-          "Romanos",
-          "1 Coríntios",
-          "2 Coríntios",
-          "Gálatas",
-          "Efésios",
-          "Filipenses",
-          "Colossenses",
-          "1 Tessalonicenses",
-          "2 Tessalonicenses",
-          "1 Timóteo",
-          "2 Timóteo",
-          "Tito",
-          "Filemom",
-          "Hebreus",
-          "Tiago",
-          "1 Pedro",
-          "2 Pedro",
-          "1 João",
-          "2 João",
-          "3 João",
-          "Judas",
-          "Apocalipse",
-        ];
-
-        for (var book in bibleBooks) {
-          b.insert(books, BooksCompanion(bookName: Value(book)));
-        }
-      });
-    });
-  }
 
   Future<SettingsDB?> getSettings() async {
     //print('Getting Home State');

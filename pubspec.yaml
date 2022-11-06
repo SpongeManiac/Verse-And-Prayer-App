@@ -40,6 +40,8 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.2
   window_manager: ^0.2.7
+  flutter_colorpicker: ^1.0.3
+  dropdown_button2: ^1.8.9
 
 dev_dependencies:
   flutter_test:

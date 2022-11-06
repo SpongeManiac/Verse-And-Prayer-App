@@ -29,7 +29,7 @@ class SettingsData extends BaseDataDB {
     var copy = this.copy();
     copy.theme = data.theme;
     copy.color = data.color;
-    copy.darkMode = data.darkMode;
+    copy.darkMode = data.darkmode;
     return copy;
   }
 
@@ -44,7 +44,7 @@ class SettingsData extends BaseDataDB {
       id: 1,
       theme: theme,
       color: color,
-      darkMode: darkMode,
+      darkmode: darkMode,
     );
   }
 

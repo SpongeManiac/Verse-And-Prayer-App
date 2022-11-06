@@ -11,19 +11,19 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
   final int id;
   final int theme;
   final int color;
-  final bool darkMode;
+  final bool darkmode;
   const SettingsDB(
       {required this.id,
       required this.theme,
       required this.color,
-      required this.darkMode});
+      required this.darkmode});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['theme'] = Variable<int>(theme);
     map['color'] = Variable<int>(color);
-    map['dark_mode'] = Variable<bool>(darkMode);
+    map['darkmode'] = Variable<bool>(darkmode);
     return map;
   }
 
@@ -32,7 +32,7 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
       id: Value(id),
       theme: Value(theme),
       color: Value(color),
-      darkMode: Value(darkMode),
+      darkmode: Value(darkmode),
     );
   }
 
@@ -43,7 +43,7 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
       id: serializer.fromJson<int>(json['id']),
       theme: serializer.fromJson<int>(json['theme']),
       color: serializer.fromJson<int>(json['color']),
-      darkMode: serializer.fromJson<bool>(json['darkMode']),
+      darkmode: serializer.fromJson<bool>(json['darkmode']),
     );
   }
   @override
@@ -53,16 +53,16 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
       'id': serializer.toJson<int>(id),
       'theme': serializer.toJson<int>(theme),
       'color': serializer.toJson<int>(color),
-      'darkMode': serializer.toJson<bool>(darkMode),
+      'darkmode': serializer.toJson<bool>(darkmode),
     };
   }
 
-  SettingsDB copyWith({int? id, int? theme, int? color, bool? darkMode}) =>
+  SettingsDB copyWith({int? id, int? theme, int? color, bool? darkmode}) =>
       SettingsDB(
         id: id ?? this.id,
         theme: theme ?? this.theme,
         color: color ?? this.color,
-        darkMode: darkMode ?? this.darkMode,
+        darkmode: darkmode ?? this.darkmode,
       );
   @override
   String toString() {
@@ -70,13 +70,13 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
           ..write('id: $id, ')
           ..write('theme: $theme, ')
           ..write('color: $color, ')
-          ..write('darkMode: $darkMode')
+          ..write('darkmode: $darkmode')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, theme, color, darkMode);
+  int get hashCode => Object.hash(id, theme, color, darkmode);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -84,37 +84,37 @@ class SettingsDB extends DataClass implements Insertable<SettingsDB> {
           other.id == this.id &&
           other.theme == this.theme &&
           other.color == this.color &&
-          other.darkMode == this.darkMode);
+          other.darkmode == this.darkmode);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsDB> {
   final Value<int> id;
   final Value<int> theme;
   final Value<int> color;
-  final Value<bool> darkMode;
+  final Value<bool> darkmode;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.theme = const Value.absent(),
     this.color = const Value.absent(),
-    this.darkMode = const Value.absent(),
+    this.darkmode = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
     this.theme = const Value.absent(),
     this.color = const Value.absent(),
-    this.darkMode = const Value.absent(),
+    this.darkmode = const Value.absent(),
   });
   static Insertable<SettingsDB> custom({
     Expression<int>? id,
     Expression<int>? theme,
     Expression<int>? color,
-    Expression<bool>? darkMode,
+    Expression<bool>? darkmode,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (theme != null) 'theme': theme,
       if (color != null) 'color': color,
-      if (darkMode != null) 'dark_mode': darkMode,
+      if (darkmode != null) 'darkmode': darkmode,
     });
   }
 
@@ -122,12 +122,12 @@ class SettingsCompanion extends UpdateCompanion<SettingsDB> {
       {Value<int>? id,
       Value<int>? theme,
       Value<int>? color,
-      Value<bool>? darkMode}) {
+      Value<bool>? darkmode}) {
     return SettingsCompanion(
       id: id ?? this.id,
       theme: theme ?? this.theme,
       color: color ?? this.color,
-      darkMode: darkMode ?? this.darkMode,
+      darkmode: darkmode ?? this.darkmode,
     );
   }
 
@@ -143,8 +143,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsDB> {
     if (color.present) {
       map['color'] = Variable<int>(color.value);
     }
-    if (darkMode.present) {
-      map['dark_mode'] = Variable<bool>(darkMode.value);
+    if (darkmode.present) {
+      map['darkmode'] = Variable<bool>(darkmode.value);
     }
     return map;
   }
@@ -155,7 +155,7 @@ class SettingsCompanion extends UpdateCompanion<SettingsDB> {
           ..write('id: $id, ')
           ..write('theme: $theme, ')
           ..write('color: $color, ')
-          ..write('darkMode: $darkMode')
+          ..write('darkmode: $darkmode')
           ..write(')'))
         .toString();
   }
@@ -189,16 +189,16 @@ class $SettingsTable extends Settings
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0xFF000000));
-  final VerificationMeta _darkModeMeta = const VerificationMeta('darkMode');
+  final VerificationMeta _darkmodeMeta = const VerificationMeta('darkmode');
   @override
-  late final GeneratedColumn<bool> darkMode = GeneratedColumn<bool>(
-      'dark_mode', aliasedName, false,
+  late final GeneratedColumn<bool> darkmode = GeneratedColumn<bool>(
+      'darkmode', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK ("dark_mode" IN (0, 1))',
+      defaultConstraints: 'CHECK ("darkmode" IN (0, 1))',
       defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [id, theme, color, darkMode];
+  List<GeneratedColumn> get $columns => [id, theme, color, darkmode];
   @override
   String get aliasedName => _alias ?? 'settings';
   @override
@@ -219,9 +219,9 @@ class $SettingsTable extends Settings
       context.handle(
           _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
     }
-    if (data.containsKey('dark_mode')) {
-      context.handle(_darkModeMeta,
-          darkMode.isAcceptableOrUnknown(data['dark_mode']!, _darkModeMeta));
+    if (data.containsKey('darkmode')) {
+      context.handle(_darkmodeMeta,
+          darkmode.isAcceptableOrUnknown(data['darkmode']!, _darkmodeMeta));
     }
     return context;
   }
@@ -238,8 +238,8 @@ class $SettingsTable extends Settings
           .read(DriftSqlType.int, data['${effectivePrefix}theme'])!,
       color: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
-      darkMode: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}dark_mode'])!,
+      darkmode: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}darkmode'])!,
     );
   }
 
@@ -251,20 +251,30 @@ class $SettingsTable extends Settings
 
 class BibleDB extends DataClass implements Insertable<BibleDB> {
   final int id;
-  final String version;
-  const BibleDB({required this.id, required this.version});
+  final String language;
+  final String name;
+  final String abr;
+  const BibleDB(
+      {required this.id,
+      required this.language,
+      required this.name,
+      required this.abr});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['version'] = Variable<String>(version);
+    map['language'] = Variable<String>(language);
+    map['name'] = Variable<String>(name);
+    map['abr'] = Variable<String>(abr);
     return map;
   }
 
   BiblesCompanion toCompanion(bool nullToAbsent) {
     return BiblesCompanion(
       id: Value(id),
-      version: Value(version),
+      language: Value(language),
+      name: Value(name),
+      abr: Value(abr),
     );
   }
 
@@ -273,7 +283,9 @@ class BibleDB extends DataClass implements Insertable<BibleDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BibleDB(
       id: serializer.fromJson<int>(json['id']),
-      version: serializer.fromJson<String>(json['version']),
+      language: serializer.fromJson<String>(json['language']),
+      name: serializer.fromJson<String>(json['name']),
+      abr: serializer.fromJson<String>(json['abr']),
     );
   }
   @override
@@ -281,58 +293,85 @@ class BibleDB extends DataClass implements Insertable<BibleDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'version': serializer.toJson<String>(version),
+      'language': serializer.toJson<String>(language),
+      'name': serializer.toJson<String>(name),
+      'abr': serializer.toJson<String>(abr),
     };
   }
 
-  BibleDB copyWith({int? id, String? version}) => BibleDB(
+  BibleDB copyWith({int? id, String? language, String? name, String? abr}) =>
+      BibleDB(
         id: id ?? this.id,
-        version: version ?? this.version,
+        language: language ?? this.language,
+        name: name ?? this.name,
+        abr: abr ?? this.abr,
       );
   @override
   String toString() {
     return (StringBuffer('BibleDB(')
           ..write('id: $id, ')
-          ..write('version: $version')
+          ..write('language: $language, ')
+          ..write('name: $name, ')
+          ..write('abr: $abr')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, version);
+  int get hashCode => Object.hash(id, language, name, abr);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is BibleDB &&
           other.id == this.id &&
-          other.version == this.version);
+          other.language == this.language &&
+          other.name == this.name &&
+          other.abr == this.abr);
 }
 
 class BiblesCompanion extends UpdateCompanion<BibleDB> {
   final Value<int> id;
-  final Value<String> version;
+  final Value<String> language;
+  final Value<String> name;
+  final Value<String> abr;
   const BiblesCompanion({
     this.id = const Value.absent(),
-    this.version = const Value.absent(),
+    this.language = const Value.absent(),
+    this.name = const Value.absent(),
+    this.abr = const Value.absent(),
   });
   BiblesCompanion.insert({
     this.id = const Value.absent(),
-    required String version,
-  }) : version = Value(version);
+    required String language,
+    required String name,
+    required String abr,
+  })  : language = Value(language),
+        name = Value(name),
+        abr = Value(abr);
   static Insertable<BibleDB> custom({
     Expression<int>? id,
-    Expression<String>? version,
+    Expression<String>? language,
+    Expression<String>? name,
+    Expression<String>? abr,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (version != null) 'version': version,
+      if (language != null) 'language': language,
+      if (name != null) 'name': name,
+      if (abr != null) 'abr': abr,
     });
   }
 
-  BiblesCompanion copyWith({Value<int>? id, Value<String>? version}) {
+  BiblesCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? language,
+      Value<String>? name,
+      Value<String>? abr}) {
     return BiblesCompanion(
       id: id ?? this.id,
-      version: version ?? this.version,
+      language: language ?? this.language,
+      name: name ?? this.name,
+      abr: abr ?? this.abr,
     );
   }
 
@@ -342,8 +381,14 @@ class BiblesCompanion extends UpdateCompanion<BibleDB> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (version.present) {
-      map['version'] = Variable<String>(version.value);
+    if (language.present) {
+      map['language'] = Variable<String>(language.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (abr.present) {
+      map['abr'] = Variable<String>(abr.value);
     }
     return map;
   }
@@ -352,7 +397,9 @@ class BiblesCompanion extends UpdateCompanion<BibleDB> {
   String toString() {
     return (StringBuffer('BiblesCompanion(')
           ..write('id: $id, ')
-          ..write('version: $version')
+          ..write('language: $language, ')
+          ..write('name: $name, ')
+          ..write('abr: $abr')
           ..write(')'))
         .toString();
   }
@@ -370,13 +417,23 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _versionMeta = const VerificationMeta('version');
+  final VerificationMeta _languageMeta = const VerificationMeta('language');
   @override
-  late final GeneratedColumn<String> version = GeneratedColumn<String>(
-      'version', aliasedName, false,
+  late final GeneratedColumn<String> language = GeneratedColumn<String>(
+      'language', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _abrMeta = const VerificationMeta('abr');
+  @override
+  late final GeneratedColumn<String> abr = GeneratedColumn<String>(
+      'abr', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, version];
+  List<GeneratedColumn> get $columns => [id, language, name, abr];
   @override
   String get aliasedName => _alias ?? 'bibles';
   @override
@@ -389,11 +446,23 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('version')) {
-      context.handle(_versionMeta,
-          version.isAcceptableOrUnknown(data['version']!, _versionMeta));
+    if (data.containsKey('language')) {
+      context.handle(_languageMeta,
+          language.isAcceptableOrUnknown(data['language']!, _languageMeta));
     } else if (isInserting) {
-      context.missing(_versionMeta);
+      context.missing(_languageMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('abr')) {
+      context.handle(
+          _abrMeta, abr.isAcceptableOrUnknown(data['abr']!, _abrMeta));
+    } else if (isInserting) {
+      context.missing(_abrMeta);
     }
     return context;
   }
@@ -406,8 +475,12 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
     return BibleDB(
       id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      version: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}version'])!,
+      language: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}language'])!,
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      abr: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}abr'])!,
     );
   }
 
@@ -419,20 +492,20 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
 
 class BookDB extends DataClass implements Insertable<BookDB> {
   final int id;
-  final String bookName;
-  const BookDB({required this.id, required this.bookName});
+  final String name;
+  const BookDB({required this.id, required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['book_name'] = Variable<String>(bookName);
+    map['name'] = Variable<String>(name);
     return map;
   }
 
   BooksCompanion toCompanion(bool nullToAbsent) {
     return BooksCompanion(
       id: Value(id),
-      bookName: Value(bookName),
+      name: Value(name),
     );
   }
 
@@ -441,7 +514,7 @@ class BookDB extends DataClass implements Insertable<BookDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookDB(
       id: serializer.fromJson<int>(json['id']),
-      bookName: serializer.fromJson<String>(json['bookName']),
+      name: serializer.fromJson<String>(json['name']),
     );
   }
   @override
@@ -449,58 +522,56 @@ class BookDB extends DataClass implements Insertable<BookDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'bookName': serializer.toJson<String>(bookName),
+      'name': serializer.toJson<String>(name),
     };
   }
 
-  BookDB copyWith({int? id, String? bookName}) => BookDB(
+  BookDB copyWith({int? id, String? name}) => BookDB(
         id: id ?? this.id,
-        bookName: bookName ?? this.bookName,
+        name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('BookDB(')
           ..write('id: $id, ')
-          ..write('bookName: $bookName')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, bookName);
+  int get hashCode => Object.hash(id, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BookDB &&
-          other.id == this.id &&
-          other.bookName == this.bookName);
+      (other is BookDB && other.id == this.id && other.name == this.name);
 }
 
 class BooksCompanion extends UpdateCompanion<BookDB> {
   final Value<int> id;
-  final Value<String> bookName;
+  final Value<String> name;
   const BooksCompanion({
     this.id = const Value.absent(),
-    this.bookName = const Value.absent(),
+    this.name = const Value.absent(),
   });
   BooksCompanion.insert({
     this.id = const Value.absent(),
-    this.bookName = const Value.absent(),
+    this.name = const Value.absent(),
   });
   static Insertable<BookDB> custom({
     Expression<int>? id,
-    Expression<String>? bookName,
+    Expression<String>? name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (bookName != null) 'book_name': bookName,
+      if (name != null) 'name': name,
     });
   }
 
-  BooksCompanion copyWith({Value<int>? id, Value<String>? bookName}) {
+  BooksCompanion copyWith({Value<int>? id, Value<String>? name}) {
     return BooksCompanion(
       id: id ?? this.id,
-      bookName: bookName ?? this.bookName,
+      name: name ?? this.name,
     );
   }
 
@@ -510,8 +581,8 @@ class BooksCompanion extends UpdateCompanion<BookDB> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (bookName.present) {
-      map['book_name'] = Variable<String>(bookName.value);
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
     }
     return map;
   }
@@ -520,7 +591,7 @@ class BooksCompanion extends UpdateCompanion<BookDB> {
   String toString() {
     return (StringBuffer('BooksCompanion(')
           ..write('id: $id, ')
-          ..write('bookName: $bookName')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
@@ -538,15 +609,15 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _bookNameMeta = const VerificationMeta('bookName');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String> bookName = GeneratedColumn<String>(
-      'book_name', aliasedName, false,
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   @override
-  List<GeneratedColumn> get $columns => [id, bookName];
+  List<GeneratedColumn> get $columns => [id, name];
   @override
   String get aliasedName => _alias ?? 'books';
   @override
@@ -559,9 +630,9 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('book_name')) {
-      context.handle(_bookNameMeta,
-          bookName.isAcceptableOrUnknown(data['book_name']!, _bookNameMeta));
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     }
     return context;
   }
@@ -574,8 +645,8 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
     return BookDB(
       id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      bookName: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}book_name'])!,
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
     );
   }
 
@@ -585,17 +656,220 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
   }
 }
 
+class BibleBookDB extends DataClass implements Insertable<BibleBookDB> {
+  final int id;
+  final int bibleID;
+  final int bookID;
+  const BibleBookDB(
+      {required this.id, required this.bibleID, required this.bookID});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['bible_i_d'] = Variable<int>(bibleID);
+    map['book_i_d'] = Variable<int>(bookID);
+    return map;
+  }
+
+  BibleBooksCompanion toCompanion(bool nullToAbsent) {
+    return BibleBooksCompanion(
+      id: Value(id),
+      bibleID: Value(bibleID),
+      bookID: Value(bookID),
+    );
+  }
+
+  factory BibleBookDB.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BibleBookDB(
+      id: serializer.fromJson<int>(json['id']),
+      bibleID: serializer.fromJson<int>(json['bibleID']),
+      bookID: serializer.fromJson<int>(json['bookID']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'bibleID': serializer.toJson<int>(bibleID),
+      'bookID': serializer.toJson<int>(bookID),
+    };
+  }
+
+  BibleBookDB copyWith({int? id, int? bibleID, int? bookID}) => BibleBookDB(
+        id: id ?? this.id,
+        bibleID: bibleID ?? this.bibleID,
+        bookID: bookID ?? this.bookID,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('BibleBookDB(')
+          ..write('id: $id, ')
+          ..write('bibleID: $bibleID, ')
+          ..write('bookID: $bookID')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, bibleID, bookID);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BibleBookDB &&
+          other.id == this.id &&
+          other.bibleID == this.bibleID &&
+          other.bookID == this.bookID);
+}
+
+class BibleBooksCompanion extends UpdateCompanion<BibleBookDB> {
+  final Value<int> id;
+  final Value<int> bibleID;
+  final Value<int> bookID;
+  const BibleBooksCompanion({
+    this.id = const Value.absent(),
+    this.bibleID = const Value.absent(),
+    this.bookID = const Value.absent(),
+  });
+  BibleBooksCompanion.insert({
+    this.id = const Value.absent(),
+    required int bibleID,
+    required int bookID,
+  })  : bibleID = Value(bibleID),
+        bookID = Value(bookID);
+  static Insertable<BibleBookDB> custom({
+    Expression<int>? id,
+    Expression<int>? bibleID,
+    Expression<int>? bookID,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (bibleID != null) 'bible_i_d': bibleID,
+      if (bookID != null) 'book_i_d': bookID,
+    });
+  }
+
+  BibleBooksCompanion copyWith(
+      {Value<int>? id, Value<int>? bibleID, Value<int>? bookID}) {
+    return BibleBooksCompanion(
+      id: id ?? this.id,
+      bibleID: bibleID ?? this.bibleID,
+      bookID: bookID ?? this.bookID,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (bibleID.present) {
+      map['bible_i_d'] = Variable<int>(bibleID.value);
+    }
+    if (bookID.present) {
+      map['book_i_d'] = Variable<int>(bookID.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BibleBooksCompanion(')
+          ..write('id: $id, ')
+          ..write('bibleID: $bibleID, ')
+          ..write('bookID: $bookID')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $BibleBooksTable extends BibleBooks
+    with TableInfo<$BibleBooksTable, BibleBookDB> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BibleBooksTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _bibleIDMeta = const VerificationMeta('bibleID');
+  @override
+  late final GeneratedColumn<int> bibleID = GeneratedColumn<int>(
+      'bible_i_d', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "bibles" ("id")');
+  final VerificationMeta _bookIDMeta = const VerificationMeta('bookID');
+  @override
+  late final GeneratedColumn<int> bookID = GeneratedColumn<int>(
+      'book_i_d', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "books" ("id")');
+  @override
+  List<GeneratedColumn> get $columns => [id, bibleID, bookID];
+  @override
+  String get aliasedName => _alias ?? 'bible_books';
+  @override
+  String get actualTableName => 'bible_books';
+  @override
+  VerificationContext validateIntegrity(Insertable<BibleBookDB> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('bible_i_d')) {
+      context.handle(_bibleIDMeta,
+          bibleID.isAcceptableOrUnknown(data['bible_i_d']!, _bibleIDMeta));
+    } else if (isInserting) {
+      context.missing(_bibleIDMeta);
+    }
+    if (data.containsKey('book_i_d')) {
+      context.handle(_bookIDMeta,
+          bookID.isAcceptableOrUnknown(data['book_i_d']!, _bookIDMeta));
+    } else if (isInserting) {
+      context.missing(_bookIDMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BibleBookDB map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BibleBookDB(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      bibleID: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}bible_i_d'])!,
+      bookID: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}book_i_d'])!,
+    );
+  }
+
+  @override
+  $BibleBooksTable createAlias(String alias) {
+    return $BibleBooksTable(attachedDatabase, alias);
+  }
+}
+
 class VerseDB extends DataClass implements Insertable<VerseDB> {
   final int id;
-  final int version;
-  final int book;
   final int chapter;
   final int verse;
   final String verseText;
   const VerseDB(
       {required this.id,
-      required this.version,
-      required this.book,
       required this.chapter,
       required this.verse,
       required this.verseText});
@@ -603,8 +877,6 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['version'] = Variable<int>(version);
-    map['book'] = Variable<int>(book);
     map['chapter'] = Variable<int>(chapter);
     map['verse'] = Variable<int>(verse);
     map['verse_text'] = Variable<String>(verseText);
@@ -614,8 +886,6 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
   VersesCompanion toCompanion(bool nullToAbsent) {
     return VersesCompanion(
       id: Value(id),
-      version: Value(version),
-      book: Value(book),
       chapter: Value(chapter),
       verse: Value(verse),
       verseText: Value(verseText),
@@ -627,8 +897,6 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return VerseDB(
       id: serializer.fromJson<int>(json['id']),
-      version: serializer.fromJson<int>(json['version']),
-      book: serializer.fromJson<int>(json['book']),
       chapter: serializer.fromJson<int>(json['chapter']),
       verse: serializer.fromJson<int>(json['verse']),
       verseText: serializer.fromJson<String>(json['verseText']),
@@ -639,25 +907,15 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'version': serializer.toJson<int>(version),
-      'book': serializer.toJson<int>(book),
       'chapter': serializer.toJson<int>(chapter),
       'verse': serializer.toJson<int>(verse),
       'verseText': serializer.toJson<String>(verseText),
     };
   }
 
-  VerseDB copyWith(
-          {int? id,
-          int? version,
-          int? book,
-          int? chapter,
-          int? verse,
-          String? verseText}) =>
+  VerseDB copyWith({int? id, int? chapter, int? verse, String? verseText}) =>
       VerseDB(
         id: id ?? this.id,
-        version: version ?? this.version,
-        book: book ?? this.book,
         chapter: chapter ?? this.chapter,
         verse: verse ?? this.verse,
         verseText: verseText ?? this.verseText,
@@ -666,8 +924,6 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
   String toString() {
     return (StringBuffer('VerseDB(')
           ..write('id: $id, ')
-          ..write('version: $version, ')
-          ..write('book: $book, ')
           ..write('chapter: $chapter, ')
           ..write('verse: $verse, ')
           ..write('verseText: $verseText')
@@ -676,14 +932,12 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
   }
 
   @override
-  int get hashCode => Object.hash(id, version, book, chapter, verse, verseText);
+  int get hashCode => Object.hash(id, chapter, verse, verseText);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is VerseDB &&
           other.id == this.id &&
-          other.version == this.version &&
-          other.book == this.book &&
           other.chapter == this.chapter &&
           other.verse == this.verse &&
           other.verseText == this.verseText);
@@ -691,40 +945,29 @@ class VerseDB extends DataClass implements Insertable<VerseDB> {
 
 class VersesCompanion extends UpdateCompanion<VerseDB> {
   final Value<int> id;
-  final Value<int> version;
-  final Value<int> book;
   final Value<int> chapter;
   final Value<int> verse;
   final Value<String> verseText;
   const VersesCompanion({
     this.id = const Value.absent(),
-    this.version = const Value.absent(),
-    this.book = const Value.absent(),
     this.chapter = const Value.absent(),
     this.verse = const Value.absent(),
     this.verseText = const Value.absent(),
   });
   VersesCompanion.insert({
     this.id = const Value.absent(),
-    required int version,
-    required int book,
     this.chapter = const Value.absent(),
     this.verse = const Value.absent(),
     this.verseText = const Value.absent(),
-  })  : version = Value(version),
-        book = Value(book);
+  });
   static Insertable<VerseDB> custom({
     Expression<int>? id,
-    Expression<int>? version,
-    Expression<int>? book,
     Expression<int>? chapter,
     Expression<int>? verse,
     Expression<String>? verseText,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (version != null) 'version': version,
-      if (book != null) 'book': book,
       if (chapter != null) 'chapter': chapter,
       if (verse != null) 'verse': verse,
       if (verseText != null) 'verse_text': verseText,
@@ -733,15 +976,11 @@ class VersesCompanion extends UpdateCompanion<VerseDB> {
 
   VersesCompanion copyWith(
       {Value<int>? id,
-      Value<int>? version,
-      Value<int>? book,
       Value<int>? chapter,
       Value<int>? verse,
       Value<String>? verseText}) {
     return VersesCompanion(
       id: id ?? this.id,
-      version: version ?? this.version,
-      book: book ?? this.book,
       chapter: chapter ?? this.chapter,
       verse: verse ?? this.verse,
       verseText: verseText ?? this.verseText,
@@ -753,12 +992,6 @@ class VersesCompanion extends UpdateCompanion<VerseDB> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
-    }
-    if (version.present) {
-      map['version'] = Variable<int>(version.value);
-    }
-    if (book.present) {
-      map['book'] = Variable<int>(book.value);
     }
     if (chapter.present) {
       map['chapter'] = Variable<int>(chapter.value);
@@ -776,8 +1009,6 @@ class VersesCompanion extends UpdateCompanion<VerseDB> {
   String toString() {
     return (StringBuffer('VersesCompanion(')
           ..write('id: $id, ')
-          ..write('version: $version, ')
-          ..write('book: $book, ')
           ..write('chapter: $chapter, ')
           ..write('verse: $verse, ')
           ..write('verseText: $verseText')
@@ -798,20 +1029,6 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _versionMeta = const VerificationMeta('version');
-  @override
-  late final GeneratedColumn<int> version = GeneratedColumn<int>(
-      'version', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "bibles" ("id")');
-  final VerificationMeta _bookMeta = const VerificationMeta('book');
-  @override
-  late final GeneratedColumn<int> book = GeneratedColumn<int>(
-      'book', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "books" ("id")');
   final VerificationMeta _chapterMeta = const VerificationMeta('chapter');
   @override
   late final GeneratedColumn<int> chapter = GeneratedColumn<int>(
@@ -834,8 +1051,7 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, version, book, chapter, verse, verseText];
+  List<GeneratedColumn> get $columns => [id, chapter, verse, verseText];
   @override
   String get aliasedName => _alias ?? 'verses';
   @override
@@ -847,18 +1063,6 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('version')) {
-      context.handle(_versionMeta,
-          version.isAcceptableOrUnknown(data['version']!, _versionMeta));
-    } else if (isInserting) {
-      context.missing(_versionMeta);
-    }
-    if (data.containsKey('book')) {
-      context.handle(
-          _bookMeta, book.isAcceptableOrUnknown(data['book']!, _bookMeta));
-    } else if (isInserting) {
-      context.missing(_bookMeta);
     }
     if (data.containsKey('chapter')) {
       context.handle(_chapterMeta,
@@ -883,10 +1087,6 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
     return VerseDB(
       id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      version: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}version'])!,
-      book: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}book'])!,
       chapter: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}chapter'])!,
       verse: attachedDatabase.options.types
@@ -899,6 +1099,213 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
   @override
   $VersesTable createAlias(String alias) {
     return $VersesTable(attachedDatabase, alias);
+  }
+}
+
+class BookVerseDB extends DataClass implements Insertable<BookVerseDB> {
+  final int id;
+  final int bookID;
+  final int verseID;
+  const BookVerseDB(
+      {required this.id, required this.bookID, required this.verseID});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['book_i_d'] = Variable<int>(bookID);
+    map['verse_i_d'] = Variable<int>(verseID);
+    return map;
+  }
+
+  BookVersesCompanion toCompanion(bool nullToAbsent) {
+    return BookVersesCompanion(
+      id: Value(id),
+      bookID: Value(bookID),
+      verseID: Value(verseID),
+    );
+  }
+
+  factory BookVerseDB.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BookVerseDB(
+      id: serializer.fromJson<int>(json['id']),
+      bookID: serializer.fromJson<int>(json['bookID']),
+      verseID: serializer.fromJson<int>(json['verseID']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'bookID': serializer.toJson<int>(bookID),
+      'verseID': serializer.toJson<int>(verseID),
+    };
+  }
+
+  BookVerseDB copyWith({int? id, int? bookID, int? verseID}) => BookVerseDB(
+        id: id ?? this.id,
+        bookID: bookID ?? this.bookID,
+        verseID: verseID ?? this.verseID,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('BookVerseDB(')
+          ..write('id: $id, ')
+          ..write('bookID: $bookID, ')
+          ..write('verseID: $verseID')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, bookID, verseID);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BookVerseDB &&
+          other.id == this.id &&
+          other.bookID == this.bookID &&
+          other.verseID == this.verseID);
+}
+
+class BookVersesCompanion extends UpdateCompanion<BookVerseDB> {
+  final Value<int> id;
+  final Value<int> bookID;
+  final Value<int> verseID;
+  const BookVersesCompanion({
+    this.id = const Value.absent(),
+    this.bookID = const Value.absent(),
+    this.verseID = const Value.absent(),
+  });
+  BookVersesCompanion.insert({
+    this.id = const Value.absent(),
+    required int bookID,
+    required int verseID,
+  })  : bookID = Value(bookID),
+        verseID = Value(verseID);
+  static Insertable<BookVerseDB> custom({
+    Expression<int>? id,
+    Expression<int>? bookID,
+    Expression<int>? verseID,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (bookID != null) 'book_i_d': bookID,
+      if (verseID != null) 'verse_i_d': verseID,
+    });
+  }
+
+  BookVersesCompanion copyWith(
+      {Value<int>? id, Value<int>? bookID, Value<int>? verseID}) {
+    return BookVersesCompanion(
+      id: id ?? this.id,
+      bookID: bookID ?? this.bookID,
+      verseID: verseID ?? this.verseID,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (bookID.present) {
+      map['book_i_d'] = Variable<int>(bookID.value);
+    }
+    if (verseID.present) {
+      map['verse_i_d'] = Variable<int>(verseID.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BookVersesCompanion(')
+          ..write('id: $id, ')
+          ..write('bookID: $bookID, ')
+          ..write('verseID: $verseID')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $BookVersesTable extends BookVerses
+    with TableInfo<$BookVersesTable, BookVerseDB> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BookVersesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _bookIDMeta = const VerificationMeta('bookID');
+  @override
+  late final GeneratedColumn<int> bookID = GeneratedColumn<int>(
+      'book_i_d', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "books" ("id")');
+  final VerificationMeta _verseIDMeta = const VerificationMeta('verseID');
+  @override
+  late final GeneratedColumn<int> verseID = GeneratedColumn<int>(
+      'verse_i_d', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "verses" ("id")');
+  @override
+  List<GeneratedColumn> get $columns => [id, bookID, verseID];
+  @override
+  String get aliasedName => _alias ?? 'book_verses';
+  @override
+  String get actualTableName => 'book_verses';
+  @override
+  VerificationContext validateIntegrity(Insertable<BookVerseDB> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('book_i_d')) {
+      context.handle(_bookIDMeta,
+          bookID.isAcceptableOrUnknown(data['book_i_d']!, _bookIDMeta));
+    } else if (isInserting) {
+      context.missing(_bookIDMeta);
+    }
+    if (data.containsKey('verse_i_d')) {
+      context.handle(_verseIDMeta,
+          verseID.isAcceptableOrUnknown(data['verse_i_d']!, _verseIDMeta));
+    } else if (isInserting) {
+      context.missing(_verseIDMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BookVerseDB map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BookVerseDB(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      bookID: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}book_i_d'])!,
+      verseID: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}verse_i_d'])!,
+    );
+  }
+
+  @override
+  $BookVersesTable createAlias(String alias) {
+    return $BookVersesTable(attachedDatabase, alias);
   }
 }
 
@@ -1111,12 +1518,14 @@ abstract class _$SharedDatabase extends GeneratedDatabase {
   late final $SettingsTable settings = $SettingsTable(this);
   late final $BiblesTable bibles = $BiblesTable(this);
   late final $BooksTable books = $BooksTable(this);
+  late final $BibleBooksTable bibleBooks = $BibleBooksTable(this);
   late final $VersesTable verses = $VersesTable(this);
+  late final $BookVersesTable bookVerses = $BookVersesTable(this);
   late final $PrayersTable prayers = $PrayersTable(this);
   @override
   Iterable<TableInfo<Table, dynamic>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [settings, bibles, books, verses, prayers];
+      [settings, bibles, books, bibleBooks, verses, bookVerses, prayers];
 }

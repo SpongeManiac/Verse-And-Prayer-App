@@ -27,7 +27,7 @@ class Flyout extends StatelessWidget {
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 child: const Center(
                     child: Text(
-                  'Woodbird MP3',
+                  'Verse & Prayer',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -44,26 +44,27 @@ class Flyout extends StatelessWidget {
                     icon: Icons.home_rounded,
                     text: 'Home',
                     onTapped: () => navigate(context, '/'),
-                    // ),
-                    // FlyoutItem(
-                    //   icon: Icons.music_note_rounded,
-                    //   text: 'Songs',
-                    //   onTapped: () => navigate(context, '/songs'),
-                    // ),
-                    // FlyoutItem(
-                    //   icon: Icons.album_rounded,
-                    //   text: 'Albums',
-                    //   onTapped: () => navigate(context, '/albums'),
-                    // ),
-                    // FlyoutItem(
-                    //   icon: Icons.queue_music_rounded,
-                    //   text: 'Playlists',
-                    //   onTapped: () => navigate(context, '/playlists'),
-                    // ),
-                    // FlyoutItem(
-                    //   icon: Icons.settings_rounded,
-                    //   text: 'Settings',
-                    //   onTapped: () => navigate(context, '/settings'),
+                  ),
+                  // ),
+                  // FlyoutItem(
+                  //   icon: Icons.music_note_rounded,
+                  //   text: 'Songs',
+                  //   onTapped: () => navigate(context, '/songs'),
+                  // ),
+                  // FlyoutItem(
+                  //   icon: Icons.album_rounded,
+                  //   text: 'Albums',
+                  //   onTapped: () => navigate(context, '/albums'),
+                  // ),
+                  // FlyoutItem(
+                  //   icon: Icons.queue_music_rounded,
+                  //   text: 'Playlists',
+                  //   onTapped: () => navigate(context, '/playlists'),
+                  // ),
+                  FlyoutItem(
+                    icon: Icons.settings_rounded,
+                    text: 'Settings',
+                    onTapped: () => navigate(context, '/settings'),
                   ),
                 ], //drawer top
               ),

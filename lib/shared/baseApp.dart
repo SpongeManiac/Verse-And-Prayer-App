@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
 import '../platform/database/database.dart';
 import '../screens/homePage.dart';
+import '../screens/settingsPage.dart';
 import 'colorMaterializer.dart';
 import 'globals.dart' as globals;
 import 'package:path/path.dart' as p;
@@ -38,7 +39,7 @@ class BaseApp extends StatefulWidget {
 
   //value notifiers
   ValueNotifier<AppBarData> appBarNotifier =
-      ValueNotifier(AppBarData('WoodBird MP3'));
+      ValueNotifier(AppBarData('Verse & Prayer'));
   String get currentNavTitle {
     return navTitle ??= appBarNotifier.value.title;
   }
@@ -61,9 +62,9 @@ class BaseApp extends StatefulWidget {
   String currentRoute = '/';
   final Map<String, ThemedPage Function(BuildContext)> routes = {
     '/': (context) => HomePage(title: 'Home'),
-    // '/prayers': (context) => PrayersPage(title: 'Playlists'),
+    //'/prayers': (context) => PrayersPage(title: 'Playlists'),
     // '/verses': (context) => VersesPage(title: 'Albums'),
-    // '/settings': (context) => SettingsPage(title: 'Settings'),
+    '/settings': (context) => SettingsPage(title: 'Settings'),
   };
 
   Scaffold appScaffold() {
@@ -92,7 +93,7 @@ class BaseApp extends StatefulWidget {
       id: 1,
       theme: 0,
       color: 0xFF000000,
-      darkMode: false,
+      darkmode: false,
     );
 
     //make sure data is valid
@@ -101,10 +102,10 @@ class BaseApp extends StatefulWidget {
         id: 1,
         theme: 0,
         color: settings.color,
-        darkMode: settings.darkMode,
+        darkmode: settings.darkmode,
       );
     }
-    darkMode.value = settings.darkMode;
+    darkMode.value = settings.darkmode;
     globals.themes['Custom'] =
         ColorMaterializer.getMaterial(Color(settings.color));
     settingsNotifier.value = settingsNotifier.value.fromEntry(settings);

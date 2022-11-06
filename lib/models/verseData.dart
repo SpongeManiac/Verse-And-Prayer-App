@@ -37,8 +37,6 @@ class VerseData extends BaseDataDB {
     VerseDB data = dataclass as VerseDB;
     var copy = this.copy();
     copy.id = data.id;
-    copy.version = data.version;
-    copy.book = data.book;
     copy.chapter = data.chapter;
     copy.verse = data.verse;
     copy.text = data.verseText;
@@ -48,8 +46,6 @@ class VerseData extends BaseDataDB {
   @override
   VersesCompanion getCompanion() {
     return VersesCompanion(
-      version: Value(version),
-      book: Value(book),
       chapter: Value(chapter),
       verse: Value(verse),
       verseText: Value(text),
@@ -60,8 +56,6 @@ class VerseData extends BaseDataDB {
   VerseDB getEntry() {
     return VerseDB(
       id: id!,
-      version: version,
-      book: book,
       chapter: chapter,
       verse: verse,
       verseText: text,
