@@ -5,8 +5,6 @@ import '../shared/baseState.dart';
 
 class VerseData extends BaseDataDB {
   VerseData({
-    required this.book,
-    required this.version,
     this.chapter = 0,
     this.verse = 0,
     this.text = '',
@@ -14,8 +12,6 @@ class VerseData extends BaseDataDB {
   });
 
   int? id;
-  String version;
-  int book;
   int chapter;
   int verse;
   String text;
@@ -23,12 +19,10 @@ class VerseData extends BaseDataDB {
   @override
   VerseData copy() {
     return VerseData(
-      book: book,
-      version: version,
+      id: id,
       chapter: chapter,
       verse: verse,
       text: text,
-      id: id,
     );
   }
 
@@ -39,7 +33,7 @@ class VerseData extends BaseDataDB {
     copy.id = data.id;
     copy.chapter = data.chapter;
     copy.verse = data.verse;
-    copy.text = data.verseText;
+    copy.text = data.scripture;
     return copy;
   }
 
@@ -48,7 +42,7 @@ class VerseData extends BaseDataDB {
     return VersesCompanion(
       chapter: Value(chapter),
       verse: Value(verse),
-      verseText: Value(text),
+      scripture: Value(text),
     );
   }
 
@@ -58,7 +52,7 @@ class VerseData extends BaseDataDB {
       id: id!,
       chapter: chapter,
       verse: verse,
-      verseText: text,
+      scripture: text,
     );
   }
 

@@ -14,13 +14,21 @@ class SettingsPage extends ThemedPage {
   }) : super();
 
   @override
+  void initState(BuildContext context) {
+    super.initState(context);
+    setAndroidBack(() async {
+      app.navigation.goto(context, '/');
+      return false;
+    });
+  }
+
+  @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   final List<DropdownMenuItem<MaterialColor>> _themeDropdown = [];
 
-  int _counter = 0;
   MaterialColor? _selectedItem = globals.themes['Blue'];
 
   SettingsData get copy => globals.app.settingsNotifier.value.copy();
@@ -28,26 +36,15 @@ class _SettingsPageState extends State<SettingsPage> {
     widget.app.settingsNotifier.value = newVal;
   }
 
-  Color pickerColor = Colors.black;
+  Color pickerColor = Colors.blue;
 
   @override
   void initState() {
     super.initState();
-    //init action button
-    widget.initFloatingAction(
-        _incrementCounter,
-        const Icon(
-          Icons.add,
-          color: Colors.grey,
-        ));
-    //init this state
     widget.initState(context);
-
     //build themedropdown
-    //print('rebuilding dropdown list');
     for (var theme in globals.themes.keys) {
       MaterialColor color = globals.themes[theme]!;
-      print('adding theme: $theme, ${globals.themes[theme]!.value}');
       _themeDropdown.add(
         DropdownMenuItem(
           value: color,
@@ -76,16 +73,6 @@ class _SettingsPageState extends State<SettingsPage> {
     pickerColor = Color(state.color);
   }
 
-  void _incrementCounter() {
-    _counter++;
-    var tmp = SettingsData(
-      copy.theme,
-      copy.color,
-      copy.darkMode,
-    );
-    copy = tmp;
-  }
-
   Future<void> _themeChanged(MaterialColor? color) async {
     _selectedItem = color;
     var tmp = copy;
@@ -110,7 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   ElevatedButton(
                     child: const Text('Done'),
                     onPressed: () {
-                      print('custom color: ${pickerColor.value}');
                       var mat = ColorMaterializer.getMaterial(pickerColor);
                       setState(() {
                         //print('themes before:');

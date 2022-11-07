@@ -45,12 +45,11 @@ class Flyout extends StatelessWidget {
                     text: 'Home',
                     onTapped: () => navigate(context, '/'),
                   ),
-                  // ),
-                  // FlyoutItem(
-                  //   icon: Icons.music_note_rounded,
-                  //   text: 'Songs',
-                  //   onTapped: () => navigate(context, '/songs'),
-                  // ),
+                  FlyoutItem(
+                    icon: Icons.music_note_rounded,
+                    text: 'Verses',
+                    onTapped: () => navigate(context, '/verses'),
+                  ),
                   // FlyoutItem(
                   //   icon: Icons.album_rounded,
                   //   text: 'Albums',

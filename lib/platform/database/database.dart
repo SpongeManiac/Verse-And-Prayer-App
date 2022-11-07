@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
 
+import '../../models/bibleData.dart';
+
 part 'database.g.dart';
 
 @DataClassName('SettingsDB')
@@ -23,8 +25,15 @@ class Bibles extends Table {
 @DataClassName('BibleBookDB')
 class BibleBooks extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get bibleID => integer().references(Bibles, #id)();
-  IntColumn get bookID => integer().references(Books, #id)();
+  IntColumn get bible => integer().references(Bibles, #id)();
+  IntColumn get book => integer().references(Books, #id)();
+}
+
+@DataClassName('BibleVerseDB')
+class BibleVerses extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get bible => integer().references(Bibles, #id)();
+  IntColumn get verse => integer().references(Verses, #id)();
 }
 
 @DataClassName('BookDB')
@@ -36,21 +45,20 @@ class Books extends Table {
 @DataClassName('BookVerseDB')
 class BookVerses extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get bookID => integer().references(Books, #id)();
-  IntColumn get verseID => integer().references(Verses, #id)();
+  IntColumn get book => integer().references(Books, #id)();
+  IntColumn get verse => integer().references(Verses, #id)();
 }
 
 @DataClassName('VerseDB')
 class Verses extends Table {
   // PrimaryKey
   IntColumn get id => integer().autoIncrement()();
-
   //chapter
   IntColumn get chapter => integer().withDefault(const Constant(0))();
   //verse
   IntColumn get verse => integer().withDefault(const Constant(0))();
   //text
-  TextColumn get verseText => text().withDefault(const Constant(''))();
+  TextColumn get scripture => text().withDefault(const Constant(''))();
 }
 
 // Data
@@ -61,7 +69,7 @@ class Prayers extends Table {
   //name
   TextColumn get name => text()();
   //text
-  TextColumn get prayerText => text()();
+  TextColumn get prayer => text()();
 }
 
 // @DataClassName('BookVerseDB')
@@ -93,6 +101,7 @@ class Prayers extends Table {
   Settings,
   Bibles,
   BibleBooks,
+  BibleVerses,
   Books,
   BookVerses,
   Verses,
@@ -120,48 +129,117 @@ class SharedDatabase extends _$SharedDatabase {
     return into(settings).insertOnConflictUpdate(state);
   }
 
-  // //songs
-  // Future<bool> songExists(int id) async {
-  //   if (id < 0) {
-  //     return false;
-  //   }
-  //   var count = countAll(filter: songs.id.equals(id));
-  //   var res = await (selectOnly(songs)..addColumns([count]))
-  //       .map((row) => row.read(count))
-  //       .getSingle();
-  //   if (res > 0) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
+  //bibles
+  Future<bool> bibleExists(int id) async {
+    if (id < 0) {
+      return false;
+    }
+    var count = countAll(filter: bibles.id.equals(id));
+    var res = await (selectOnly(bibles)..addColumns([count]))
+        .map((row) => row.read(count))
+        .getSingle();
+    if (res! > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<BibleDB?> getBible(int id) async {
+    return await (select(bibles)
+          ..where((tbl) => tbl.id.equals(id))
+          ..limit(1))
+        .getSingleOrNull();
+  }
+
+  // Future<int> setBibleData(BiblesCompanion bible) async {
+  //   return into(bibles).insertOnConflictUpdate(bible);
   // }
 
-  // Future<SongDataDB?> getSongData(int id) async {
-  //   return await (select(songs)
-  //         ..where((tbl) => tbl.id.equals(id))
-  //         ..limit(1))
-  //       .getSingleOrNull();
+  // Future<bool> updateBibleData(BibleDB bible) async {
+  //   return update(bibles).replace(bible);
   // }
 
-  // Future<int> setSongData(SongsCompanion song) async {
-  //   return into(songs).insertOnConflictUpdate(song);
+  // Future<int> delBibleData(BibleDB bible) async {
+  //   //print('deleting ${bible.name}, index ${bible.id}');
+  //   return (delete(bibles)..where((s) => s.id.equals(bible.id))).go();
   // }
 
-  // Future<bool> updateSongData(SongDataDB song) async {
-  //   return update(songs).replace(song);
-  // }
+  Future<List<BibleDB>> getBibles() async {
+    return await (select(bibles)
+          ..orderBy([(t) => OrderingTerm(expression: t.name)]))
+        .get();
+  }
 
-  // Future<int> delSongData(SongDataDB song) async {
-  //   print('deleting ${song.title}, index ${song.id}');
-  //   return (delete(songs)..where((s) => s.id.equals(song.id))).go();
-  //   //remove file?
-  // }
+  Future<List<BookDB>> getBibleBooks(BibleData? bible) async {
+    if (bible == null) {
+      print('null bible provided');
+      return <BookDB>[];
+    } else {
+      print('Bible id: ${bible.id}');
+      final booksQuery = await (select(bibleBooks).join(
+        [
+          innerJoin(
+            books,
+            books.id.equalsExp(bibleBooks.book),
+          ),
+        ],
+      )..where(bibleBooks.bible.equals(bible.id!)))
+          .get();
+      var booksList = booksQuery.map((result) {
+        return result.readTable(books);
+      }).toList();
+      return booksList;
+    }
+  }
 
-  // Future<List<SongDataDB>> getAllSongs() async {
-  //   return await (select(songs)
-  //         ..orderBy([(t) => OrderingTerm(expression: t.title)]))
-  //       .get();
-  // }
+  //books
+  Future<BookDB?> getBook(int id) async {
+    return await (select(books)
+          ..where((tbl) => tbl.id.equals(id))
+          ..limit(1))
+        .getSingleOrNull();
+  }
+
+  Future<List<BookDB>> getBooks() async {
+    return await (select(books)
+          ..orderBy([(t) => OrderingTerm(expression: t.name)]))
+        .get();
+  }
+
+  //verses
+  Future<VerseDB?> getVerse(int id) async {
+    return await (select(verses)
+          ..where((tbl) => tbl.id.equals(id))
+          ..limit(1))
+        .getSingleOrNull();
+  }
+
+  Future<List<VerseDB>> getVerses() async {
+    return await (select(verses)
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.chapter),
+            (t) => OrderingTerm(expression: t.verse)
+          ]))
+        .get();
+  }
+
+  Future<List<VerseDB>> getBibleVerses(BibleData bible) async {
+    //get books from bible
+    final versesQuery = await (select(bibleVerses).join(
+      [
+        innerJoin(
+          verses,
+          verses.id.equalsExp(bibleVerses.verse),
+        ),
+      ],
+    )..where(bibleVerses.bible.equals(bible.id!)))
+        .get();
+    var versesList = versesQuery.map((result) {
+      return result.readTable(verses);
+    }).toList();
+    return versesList;
+  }
 
   // //playlists
   // Future<bool> playlistExists(int id) async {

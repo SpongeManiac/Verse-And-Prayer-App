@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
+import '../models/bibleData.dart';
+import '../models/bookData.dart';
 import '../platform/database/database.dart';
 import '../screens/homePage.dart';
 import '../screens/settingsPage.dart';
+import '../screens/versesPage.dart';
 import 'colorMaterializer.dart';
 import 'globals.dart' as globals;
 import 'package:path/path.dart' as p;
@@ -57,13 +60,22 @@ class BaseApp extends StatefulWidget {
   final ValueNotifier<double?> loadingProgressNotifier =
       ValueNotifier<double?>(0);
 
+  final ValueNotifier<List<String>> languagesNotifier =
+      ValueNotifier(<String>[]);
+
+  final ValueNotifier<List<BibleData>> biblesNotifier =
+      ValueNotifier(<BibleData>[]);
+
+  final ValueNotifier<List<BookData>> booksNotifier =
+      ValueNotifier(<BookData>[]);
+
   ValueNotifier<bool> darkMode = ValueNotifier(false);
 
   String currentRoute = '/';
   final Map<String, ThemedPage Function(BuildContext)> routes = {
     '/': (context) => HomePage(title: 'Home'),
-    //'/prayers': (context) => PrayersPage(title: 'Playlists'),
-    // '/verses': (context) => VersesPage(title: 'Albums'),
+    '/verses': (context) => VersesPage(title: 'Verses'),
+    //'/prayers': (context) => PrayersPage(title: 'Prayers'),
     '/settings': (context) => SettingsPage(title: 'Settings'),
   };
 
@@ -82,6 +94,12 @@ class BaseApp extends StatefulWidget {
 
   void setNavTitle([String? title]) {
     currentNavTitle = title ??= currentNavTitle;
+  }
+
+  Future<void> load() async {
+    await loadSettings();
+    await loadBibles();
+    //await loadBooks();
   }
 
   Future<void> loadSettings() async {
@@ -111,12 +129,24 @@ class BaseApp extends StatefulWidget {
     settingsNotifier.value = settingsNotifier.value.fromEntry(settings);
   }
 
+  Future<void> saveSettings() async {
+    await globals.db.setSettings(globals.app.settingsNotifier.value.getEntry());
+  }
+
+  Future<void> loadBibles() async {
+    //get homepagestate db object
+    var biblesDB = await globals.db.getBibles();
+    biblesNotifier.value =
+        biblesDB.map((b) => BibleData().fromEntry(b)).toList();
+  }
+
+  // Future<void> loadBooks() async {
+  //   var booksDB = await globals.db.getBooks();
+  //   booksNotifier.value = booksDB.map((b) => BookData().fromEntry(b)).toList();
+  // }
+
   @override
   State<StatefulWidget> createState() => _BaseAppState();
-}
-
-Future<void> loadSettings() async {
-  await globals.db.setSettings(globals.app.settingsNotifier.value.getEntry());
 }
 
 class _BaseAppState extends State<BaseApp> {

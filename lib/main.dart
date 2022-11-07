@@ -14,7 +14,7 @@ void main() {
     if (!isMobile) {
       await windowManager.ensureInitialized();
     }
-    await globals.app.loadSettings().then((value) async {
+    await globals.app.load().then((value) async {
       runApp(globals.app);
     });
   }();
