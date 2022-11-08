@@ -67,14 +67,25 @@ class _VersesPageState extends CRUDState<VerseData> {
     books = booksDB.map((b) => BookData().fromEntry(b)).toList();
   }
 
-  // List<DropdownMenuItem<BookData>> get booksItems {
-  //   return books
-  //       .map((b) => DropdownMenuItem(
-  //             value: b,
-  //             child: Text(b.name),
-  //           ))
-  //       .toList();
-  // }
+  Future<void> getVerse() async {
+    print('Getting verse...');
+    if (selectedBible != null &&
+        selectedBook != null &&
+        newChapter.text.isNotEmpty &&
+        newVerse.text.isNotEmpty) {
+      print(
+          'Getting ${selectedBible!.name}, ${selectedBook!.name}, ${newChapter.text}:${newVerse.text} ...');
+      var verseDB = await widget.db.getSpecificVerse(selectedBible!,
+          selectedBook!, int.parse(newChapter.text), int.parse(newVerse.text));
+      verse = verseDB == null ? 'No verse found.' : verseDB.scripture;
+    } else {
+      verse = 'No verse found.';
+    }
+    setState(() {});
+  }
+
+  String verse = '';
+  void Function()? submit;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -84,7 +95,7 @@ class _VersesPageState extends CRUDState<VerseData> {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Text('Select a verse'),
+              const Text('Select a verse'),
               ListView(
                 shrinkWrap: true,
                 children: [
@@ -98,6 +109,18 @@ class _VersesPageState extends CRUDState<VerseData> {
                         await setBibleBooks();
                       }();
                       setState(() {});
+                      if (selectedBible != null &&
+                          selectedBook != null &&
+                          newChapter.text.isNotEmpty &&
+                          newVerse.text.isNotEmpty) {
+                        setState(() {
+                          submit = getVerse;
+                        });
+                      } else {
+                        setState(() {
+                          submit = null;
+                        });
+                      }
                     },
                   ),
                   DropdownButtonFormField(
@@ -107,32 +130,88 @@ class _VersesPageState extends CRUDState<VerseData> {
                     onChanged: (value) {
                       selectedBook = value;
                       setState(() {});
+                      if (selectedBible != null &&
+                          selectedBook != null &&
+                          newChapter.text.isNotEmpty &&
+                          newVerse.text.isNotEmpty) {
+                        setState(() {
+                          submit = getVerse;
+                        });
+                      } else {
+                        setState(() {
+                          submit = null;
+                        });
+                      }
                     },
                   ),
-                  TextFormField(
-                    controller: newChapter,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: 'Chapter',
-                    ),
-                  ),
-                  TextFormField(
-                    controller: newVerse,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: 'Verse',
-                    ),
-                  ),
+                  LayoutBuilder(builder:
+                      (BuildContext context, BoxConstraints constraints) {
+                    return Row(
+                      children: [
+                        TextFormField(
+                          controller: newChapter,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Chapter',
+                            constraints: BoxConstraints(
+                                maxWidth: constraints.maxWidth / 2),
+                          ),
+                          onChanged: (value) {
+                            if (selectedBible != null &&
+                                selectedBook != null &&
+                                value.isNotEmpty &&
+                                newVerse.text.isNotEmpty) {
+                              setState(() {
+                                submit = getVerse;
+                              });
+                            } else {
+                              setState(() {
+                                submit = null;
+                              });
+                            }
+                          },
+                        ),
+                        TextFormField(
+                          controller: newVerse,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Verse',
+                            constraints: BoxConstraints(
+                                maxWidth: constraints.maxWidth / 2),
+                          ),
+                          onChanged: (value) {
+                            if (selectedBible != null &&
+                                selectedBook != null &&
+                                newChapter.text.isNotEmpty &&
+                                value.isNotEmpty) {
+                              setState(() {
+                                submit = getVerse;
+                              });
+                            } else {
+                              setState(() {
+                                submit = null;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  }),
                 ],
               ),
+              Expanded(child: Center(child: Text(verse))),
+              ElevatedButton(
+                onPressed: submit,
+                child: const Text('Get Verse'),
+              )
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:verse_prayer_study/models/bookData.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
 
 import '../../models/bibleData.dart';
@@ -42,17 +43,19 @@ class Books extends Table {
   TextColumn get name => text().withDefault(const Constant(''))();
 }
 
-@DataClassName('BookVerseDB')
-class BookVerses extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get book => integer().references(Books, #id)();
-  IntColumn get verse => integer().references(Verses, #id)();
-}
+// @DataClassName('BookVerseDB')
+// class BookVerses extends Table {
+//   IntColumn get id => integer().autoIncrement()();
+//   IntColumn get book => integer().references(Books, #id)();
+//   IntColumn get verse => integer().references(Verses, #id)();
+// }
 
 @DataClassName('VerseDB')
 class Verses extends Table {
   // PrimaryKey
   IntColumn get id => integer().autoIncrement()();
+  //book
+  IntColumn get book => integer().references(Books, #id)();
   //chapter
   IntColumn get chapter => integer().withDefault(const Constant(0))();
   //verse
@@ -103,7 +106,7 @@ class Prayers extends Table {
   BibleBooks,
   BibleVerses,
   Books,
-  BookVerses,
+  //BookVerses,
   Verses,
   Prayers,
 ])
@@ -239,6 +242,29 @@ class SharedDatabase extends _$SharedDatabase {
       return result.readTable(verses);
     }).toList();
     return versesList;
+  }
+
+  Future<VerseDB?> getSpecificVerse(
+      BibleData bible, BookData book, int chapter, int verse) async {
+    if (bible.id != null && book.id != null) {
+      final a = alias(bibleVerses, 'a');
+      final b = alias(verses, 'b');
+      final versesQuery = await (select(a).join([
+        innerJoin(
+          b,
+          b.id.equalsExp(a.verse),
+        )
+      ])
+            ..where(a.bible.equals(bible.id!) &
+                b.book.equals(book.id!) &
+                b.chapter.equals(chapter) &
+                b.verse.equals(verse)))
+          .get();
+      var list = versesQuery.map((row) => row.readTable(b)).toList();
+      return list.isEmpty ? null : list[0];
+    } else {
+      return null;
+    }
   }
 
   // //playlists
