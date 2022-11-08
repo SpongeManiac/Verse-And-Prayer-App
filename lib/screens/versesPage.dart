@@ -62,9 +62,10 @@ class _VersesPageState extends CRUDState<VerseData> {
   }
 
   Future<void> setBibleBooks() async {
-    selectedBook = null;
+    var bookNum = selectedBook != null ? books.indexOf(selectedBook!) : -1;
     var booksDB = await widget.db.getBibleBooks(selectedBible);
     books = booksDB.map((b) => BookData().fromEntry(b)).toList();
+    selectedBook = bookNum == -1 ? null : books[bookNum];
   }
 
   Future<void> getVerse() async {
@@ -96,118 +97,117 @@ class _VersesPageState extends CRUDState<VerseData> {
           child: Column(
             children: [
               const Text('Select a verse'),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  DropdownButtonFormField(
-                    isExpanded: true,
-                    items: biblesItems,
-                    value: selectedBible,
-                    onChanged: (value) {
-                      selectedBible = value;
-                      () async {
-                        await setBibleBooks();
-                      }();
-                      setState(() {});
-                      if (selectedBible != null &&
-                          selectedBook != null &&
-                          newChapter.text.isNotEmpty &&
-                          newVerse.text.isNotEmpty) {
-                        setState(() {
-                          submit = getVerse;
-                        });
-                      } else {
-                        setState(() {
-                          submit = null;
-                        });
-                      }
-                    },
-                  ),
-                  DropdownButtonFormField(
-                    isExpanded: true,
-                    items: booksItems,
-                    value: selectedBook,
-                    onChanged: (value) {
-                      selectedBook = value;
-                      setState(() {});
-                      if (selectedBible != null &&
-                          selectedBook != null &&
-                          newChapter.text.isNotEmpty &&
-                          newVerse.text.isNotEmpty) {
-                        setState(() {
-                          submit = getVerse;
-                        });
-                      } else {
-                        setState(() {
-                          submit = null;
-                        });
-                      }
-                    },
-                  ),
-                  LayoutBuilder(builder:
-                      (BuildContext context, BoxConstraints constraints) {
-                    return Row(
-                      children: [
-                        TextFormField(
-                          controller: newChapter,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          decoration: InputDecoration(
-                            labelText: 'Chapter',
-                            constraints: BoxConstraints(
-                                maxWidth: constraints.maxWidth / 2),
-                          ),
-                          onChanged: (value) {
-                            if (selectedBible != null &&
-                                selectedBook != null &&
-                                value.isNotEmpty &&
-                                newVerse.text.isNotEmpty) {
-                              setState(() {
-                                submit = getVerse;
-                              });
-                            } else {
-                              setState(() {
-                                submit = null;
-                              });
-                            }
-                          },
-                        ),
-                        TextFormField(
-                          controller: newVerse,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          decoration: InputDecoration(
-                            labelText: 'Verse',
-                            constraints: BoxConstraints(
-                                maxWidth: constraints.maxWidth / 2),
-                          ),
-                          onChanged: (value) {
-                            if (selectedBible != null &&
-                                selectedBook != null &&
-                                newChapter.text.isNotEmpty &&
-                                value.isNotEmpty) {
-                              setState(() {
-                                submit = getVerse;
-                              });
-                            } else {
-                              setState(() {
-                                submit = null;
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  }),
-                ],
+              DropdownButtonFormField(
+                isExpanded: true,
+                items: biblesItems,
+                value: selectedBible,
+                onChanged: (value) {
+                  selectedBible = value;
+                  () async {
+                    await setBibleBooks();
+                  }();
+                  setState(() {});
+                  if (selectedBible != null &&
+                      selectedBook != null &&
+                      newChapter.text.isNotEmpty &&
+                      newVerse.text.isNotEmpty) {
+                    setState(() {
+                      submit = getVerse;
+                    });
+                  } else {
+                    setState(() {
+                      submit = null;
+                    });
+                  }
+                },
               ),
-              Expanded(child: Center(child: Text(verse))),
+              DropdownButtonFormField(
+                isExpanded: true,
+                items: booksItems,
+                value: selectedBook,
+                onChanged: (value) {
+                  selectedBook = value;
+                  setState(() {});
+                  if (selectedBible != null &&
+                      selectedBook != null &&
+                      newChapter.text.isNotEmpty &&
+                      newVerse.text.isNotEmpty) {
+                    setState(() {
+                      submit = getVerse;
+                    });
+                  } else {
+                    setState(() {
+                      submit = null;
+                    });
+                  }
+                },
+              ),
+              LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                return Row(
+                  children: [
+                    TextFormField(
+                      controller: newChapter,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      decoration: InputDecoration(
+                        labelText: 'Chapter',
+                        constraints:
+                            BoxConstraints(maxWidth: constraints.maxWidth / 2),
+                      ),
+                      onChanged: (value) {
+                        if (selectedBible != null &&
+                            selectedBook != null &&
+                            value.isNotEmpty &&
+                            newVerse.text.isNotEmpty) {
+                          setState(() {
+                            submit = getVerse;
+                          });
+                        } else {
+                          setState(() {
+                            submit = null;
+                          });
+                        }
+                      },
+                    ),
+                    TextFormField(
+                      controller: newVerse,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      decoration: InputDecoration(
+                        labelText: 'Verse',
+                        constraints:
+                            BoxConstraints(maxWidth: constraints.maxWidth / 2),
+                      ),
+                      onChanged: (value) {
+                        if (selectedBible != null &&
+                            selectedBook != null &&
+                            newChapter.text.isNotEmpty &&
+                            value.isNotEmpty) {
+                          setState(() {
+                            submit = getVerse;
+                          });
+                        } else {
+                          setState(() {
+                            submit = null;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                );
+              }),
+              Expanded(
+                child: Center(
+                  child: Text(verse),
+                ),
+              ),
               ElevatedButton(
                 onPressed: submit,
                 child: const Text('Get Verse'),

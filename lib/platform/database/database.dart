@@ -64,6 +64,13 @@ class Verses extends Table {
   TextColumn get scripture => text().withDefault(const Constant(''))();
 }
 
+@DataClassName('SavedVerseDB')
+class SavedVerses extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get startVerse => integer().references(Verses, #id)();
+  IntColumn get endVerse => integer().references(Verses, #id)();
+}
+
 // Data
 @DataClassName('PrayerDB')
 class Prayers extends Table {
@@ -108,6 +115,7 @@ class Prayers extends Table {
   Books,
   //BookVerses,
   Verses,
+  SavedVerses,
   Prayers,
 ])
 class SharedDatabase extends _$SharedDatabase {
