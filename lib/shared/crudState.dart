@@ -104,7 +104,7 @@ abstract class CRUDState<T> extends State<ThemedPage> {
     return ValueListenableBuilder<ViewState>(
       valueListenable: stateNotifier,
       builder: (context, state, _) {
-        print('current state: $state');
+        //print('current state: $state');
         switch (state) {
           case ViewState.create:
             return createView(context);
@@ -115,7 +115,7 @@ abstract class CRUDState<T> extends State<ThemedPage> {
           case ViewState.delete:
             return deleteView(context);
           default:
-            return Center(child: Text('Invalid State'));
+            return const Center(child: Text('Invalid State'));
         }
       },
     );

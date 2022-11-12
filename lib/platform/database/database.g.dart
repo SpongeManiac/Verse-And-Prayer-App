@@ -1345,6 +1345,400 @@ class $BibleVersesTable extends BibleVerses
   }
 }
 
+class PassageDB extends DataClass implements Insertable<PassageDB> {
+  final int id;
+  final int startVerse;
+  final int endVerse;
+  final String bible;
+  final String book;
+  final String start;
+  final String end;
+  final String passage;
+  const PassageDB(
+      {required this.id,
+      required this.startVerse,
+      required this.endVerse,
+      required this.bible,
+      required this.book,
+      required this.start,
+      required this.end,
+      required this.passage});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['start_verse'] = Variable<int>(startVerse);
+    map['end_verse'] = Variable<int>(endVerse);
+    map['bible'] = Variable<String>(bible);
+    map['book'] = Variable<String>(book);
+    map['start'] = Variable<String>(start);
+    map['end'] = Variable<String>(end);
+    map['passage'] = Variable<String>(passage);
+    return map;
+  }
+
+  PassagesCompanion toCompanion(bool nullToAbsent) {
+    return PassagesCompanion(
+      id: Value(id),
+      startVerse: Value(startVerse),
+      endVerse: Value(endVerse),
+      bible: Value(bible),
+      book: Value(book),
+      start: Value(start),
+      end: Value(end),
+      passage: Value(passage),
+    );
+  }
+
+  factory PassageDB.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PassageDB(
+      id: serializer.fromJson<int>(json['id']),
+      startVerse: serializer.fromJson<int>(json['startVerse']),
+      endVerse: serializer.fromJson<int>(json['endVerse']),
+      bible: serializer.fromJson<String>(json['bible']),
+      book: serializer.fromJson<String>(json['book']),
+      start: serializer.fromJson<String>(json['start']),
+      end: serializer.fromJson<String>(json['end']),
+      passage: serializer.fromJson<String>(json['passage']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'startVerse': serializer.toJson<int>(startVerse),
+      'endVerse': serializer.toJson<int>(endVerse),
+      'bible': serializer.toJson<String>(bible),
+      'book': serializer.toJson<String>(book),
+      'start': serializer.toJson<String>(start),
+      'end': serializer.toJson<String>(end),
+      'passage': serializer.toJson<String>(passage),
+    };
+  }
+
+  PassageDB copyWith(
+          {int? id,
+          int? startVerse,
+          int? endVerse,
+          String? bible,
+          String? book,
+          String? start,
+          String? end,
+          String? passage}) =>
+      PassageDB(
+        id: id ?? this.id,
+        startVerse: startVerse ?? this.startVerse,
+        endVerse: endVerse ?? this.endVerse,
+        bible: bible ?? this.bible,
+        book: book ?? this.book,
+        start: start ?? this.start,
+        end: end ?? this.end,
+        passage: passage ?? this.passage,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PassageDB(')
+          ..write('id: $id, ')
+          ..write('startVerse: $startVerse, ')
+          ..write('endVerse: $endVerse, ')
+          ..write('bible: $bible, ')
+          ..write('book: $book, ')
+          ..write('start: $start, ')
+          ..write('end: $end, ')
+          ..write('passage: $passage')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, startVerse, endVerse, bible, book, start, end, passage);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PassageDB &&
+          other.id == this.id &&
+          other.startVerse == this.startVerse &&
+          other.endVerse == this.endVerse &&
+          other.bible == this.bible &&
+          other.book == this.book &&
+          other.start == this.start &&
+          other.end == this.end &&
+          other.passage == this.passage);
+}
+
+class PassagesCompanion extends UpdateCompanion<PassageDB> {
+  final Value<int> id;
+  final Value<int> startVerse;
+  final Value<int> endVerse;
+  final Value<String> bible;
+  final Value<String> book;
+  final Value<String> start;
+  final Value<String> end;
+  final Value<String> passage;
+  const PassagesCompanion({
+    this.id = const Value.absent(),
+    this.startVerse = const Value.absent(),
+    this.endVerse = const Value.absent(),
+    this.bible = const Value.absent(),
+    this.book = const Value.absent(),
+    this.start = const Value.absent(),
+    this.end = const Value.absent(),
+    this.passage = const Value.absent(),
+  });
+  PassagesCompanion.insert({
+    this.id = const Value.absent(),
+    required int startVerse,
+    required int endVerse,
+    required String bible,
+    required String book,
+    required String start,
+    required String end,
+    required String passage,
+  })  : startVerse = Value(startVerse),
+        endVerse = Value(endVerse),
+        bible = Value(bible),
+        book = Value(book),
+        start = Value(start),
+        end = Value(end),
+        passage = Value(passage);
+  static Insertable<PassageDB> custom({
+    Expression<int>? id,
+    Expression<int>? startVerse,
+    Expression<int>? endVerse,
+    Expression<String>? bible,
+    Expression<String>? book,
+    Expression<String>? start,
+    Expression<String>? end,
+    Expression<String>? passage,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (startVerse != null) 'start_verse': startVerse,
+      if (endVerse != null) 'end_verse': endVerse,
+      if (bible != null) 'bible': bible,
+      if (book != null) 'book': book,
+      if (start != null) 'start': start,
+      if (end != null) 'end': end,
+      if (passage != null) 'passage': passage,
+    });
+  }
+
+  PassagesCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? startVerse,
+      Value<int>? endVerse,
+      Value<String>? bible,
+      Value<String>? book,
+      Value<String>? start,
+      Value<String>? end,
+      Value<String>? passage}) {
+    return PassagesCompanion(
+      id: id ?? this.id,
+      startVerse: startVerse ?? this.startVerse,
+      endVerse: endVerse ?? this.endVerse,
+      bible: bible ?? this.bible,
+      book: book ?? this.book,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      passage: passage ?? this.passage,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (startVerse.present) {
+      map['start_verse'] = Variable<int>(startVerse.value);
+    }
+    if (endVerse.present) {
+      map['end_verse'] = Variable<int>(endVerse.value);
+    }
+    if (bible.present) {
+      map['bible'] = Variable<String>(bible.value);
+    }
+    if (book.present) {
+      map['book'] = Variable<String>(book.value);
+    }
+    if (start.present) {
+      map['start'] = Variable<String>(start.value);
+    }
+    if (end.present) {
+      map['end'] = Variable<String>(end.value);
+    }
+    if (passage.present) {
+      map['passage'] = Variable<String>(passage.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PassagesCompanion(')
+          ..write('id: $id, ')
+          ..write('startVerse: $startVerse, ')
+          ..write('endVerse: $endVerse, ')
+          ..write('bible: $bible, ')
+          ..write('book: $book, ')
+          ..write('start: $start, ')
+          ..write('end: $end, ')
+          ..write('passage: $passage')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PassagesTable extends Passages
+    with TableInfo<$PassagesTable, PassageDB> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PassagesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _startVerseMeta = const VerificationMeta('startVerse');
+  @override
+  late final GeneratedColumn<int> startVerse = GeneratedColumn<int>(
+      'start_verse', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "verses" ("id")');
+  final VerificationMeta _endVerseMeta = const VerificationMeta('endVerse');
+  @override
+  late final GeneratedColumn<int> endVerse = GeneratedColumn<int>(
+      'end_verse', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES "verses" ("id")');
+  final VerificationMeta _bibleMeta = const VerificationMeta('bible');
+  @override
+  late final GeneratedColumn<String> bible = GeneratedColumn<String>(
+      'bible', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _bookMeta = const VerificationMeta('book');
+  @override
+  late final GeneratedColumn<String> book = GeneratedColumn<String>(
+      'book', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _startMeta = const VerificationMeta('start');
+  @override
+  late final GeneratedColumn<String> start = GeneratedColumn<String>(
+      'start', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _endMeta = const VerificationMeta('end');
+  @override
+  late final GeneratedColumn<String> end = GeneratedColumn<String>(
+      'end', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _passageMeta = const VerificationMeta('passage');
+  @override
+  late final GeneratedColumn<String> passage = GeneratedColumn<String>(
+      'passage', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, startVerse, endVerse, bible, book, start, end, passage];
+  @override
+  String get aliasedName => _alias ?? 'passages';
+  @override
+  String get actualTableName => 'passages';
+  @override
+  VerificationContext validateIntegrity(Insertable<PassageDB> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('start_verse')) {
+      context.handle(
+          _startVerseMeta,
+          startVerse.isAcceptableOrUnknown(
+              data['start_verse']!, _startVerseMeta));
+    } else if (isInserting) {
+      context.missing(_startVerseMeta);
+    }
+    if (data.containsKey('end_verse')) {
+      context.handle(_endVerseMeta,
+          endVerse.isAcceptableOrUnknown(data['end_verse']!, _endVerseMeta));
+    } else if (isInserting) {
+      context.missing(_endVerseMeta);
+    }
+    if (data.containsKey('bible')) {
+      context.handle(
+          _bibleMeta, bible.isAcceptableOrUnknown(data['bible']!, _bibleMeta));
+    } else if (isInserting) {
+      context.missing(_bibleMeta);
+    }
+    if (data.containsKey('book')) {
+      context.handle(
+          _bookMeta, book.isAcceptableOrUnknown(data['book']!, _bookMeta));
+    } else if (isInserting) {
+      context.missing(_bookMeta);
+    }
+    if (data.containsKey('start')) {
+      context.handle(
+          _startMeta, start.isAcceptableOrUnknown(data['start']!, _startMeta));
+    } else if (isInserting) {
+      context.missing(_startMeta);
+    }
+    if (data.containsKey('end')) {
+      context.handle(
+          _endMeta, end.isAcceptableOrUnknown(data['end']!, _endMeta));
+    } else if (isInserting) {
+      context.missing(_endMeta);
+    }
+    if (data.containsKey('passage')) {
+      context.handle(_passageMeta,
+          passage.isAcceptableOrUnknown(data['passage']!, _passageMeta));
+    } else if (isInserting) {
+      context.missing(_passageMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PassageDB map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PassageDB(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      startVerse: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}start_verse'])!,
+      endVerse: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}end_verse'])!,
+      bible: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}bible'])!,
+      book: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}book'])!,
+      start: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}start'])!,
+      end: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}end'])!,
+      passage: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}passage'])!,
+    );
+  }
+
+  @override
+  $PassagesTable createAlias(String alias) {
+    return $PassagesTable(attachedDatabase, alias);
+  }
+}
+
 class PrayerDB extends DataClass implements Insertable<PrayerDB> {
   final int id;
   final String name;
@@ -1554,11 +1948,20 @@ abstract class _$SharedDatabase extends GeneratedDatabase {
   late final $BibleBooksTable bibleBooks = $BibleBooksTable(this);
   late final $VersesTable verses = $VersesTable(this);
   late final $BibleVersesTable bibleVerses = $BibleVersesTable(this);
+  late final $PassagesTable passages = $PassagesTable(this);
   late final $PrayersTable prayers = $PrayersTable(this);
   @override
   Iterable<TableInfo<Table, dynamic>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [settings, bibles, books, bibleBooks, verses, bibleVerses, prayers];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        settings,
+        bibles,
+        books,
+        bibleBooks,
+        verses,
+        bibleVerses,
+        passages,
+        prayers
+      ];
 }

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
 import '../models/bibleData.dart';
 import '../models/bookData.dart';
+import '../models/passageData.dart';
+import '../models/prayerData.dart';
 import '../platform/database/database.dart';
 import '../screens/homePage.dart';
+import '../screens/passagesPage.dart';
+import '../screens/prayersPage.dart';
 import '../screens/settingsPage.dart';
-import '../screens/versesPage.dart';
 import 'colorMaterializer.dart';
 import 'globals.dart' as globals;
 import 'package:path/path.dart' as p;
@@ -63,19 +66,27 @@ class BaseApp extends StatefulWidget {
   final ValueNotifier<List<String>> languagesNotifier =
       ValueNotifier(<String>[]);
 
-  final ValueNotifier<List<BibleData>> biblesNotifier =
-      ValueNotifier(<BibleData>[]);
+  final ValueNotifier<List<BibleDB>> biblesNotifier =
+      ValueNotifier(<BibleDB>[]);
 
-  final ValueNotifier<List<BookData>> booksNotifier =
-      ValueNotifier(<BookData>[]);
+  final ValueNotifier<List<BookDB>> booksNotifier = ValueNotifier(<BookDB>[]);
+
+  final ValueNotifier<List<PassageData>> passagesNotifier =
+      ValueNotifier(<PassageData>[]);
+
+  final ValueNotifier<List<PrayerData>> prayersNotifier =
+      ValueNotifier(<PrayerData>[]);
 
   ValueNotifier<bool> darkMode = ValueNotifier(false);
 
   String currentRoute = '/';
   final Map<String, ThemedPage Function(BuildContext)> routes = {
     '/': (context) => HomePage(title: 'Home'),
-    '/verses': (context) => VersesPage(title: 'Verses'),
-    //'/prayers': (context) => PrayersPage(title: 'Prayers'),
+    '/passages': (context) => PassagesPage(
+          title: 'Passages',
+          floatingActionButton: const HideableFloatingAction(),
+        ),
+    '/prayers': (context) => PrayersPage(title: 'Prayers'),
     '/settings': (context) => SettingsPage(title: 'Settings'),
   };
 
@@ -99,7 +110,8 @@ class BaseApp extends StatefulWidget {
   Future<void> load() async {
     await loadSettings();
     await loadBibles();
-    //await loadBooks();
+    await loadPassages();
+    await loadPrayers();
   }
 
   Future<void> loadSettings() async {
@@ -136,14 +148,20 @@ class BaseApp extends StatefulWidget {
   Future<void> loadBibles() async {
     //get homepagestate db object
     var biblesDB = await globals.db.getBibles();
-    biblesNotifier.value =
-        biblesDB.map((b) => BibleData().fromEntry(b)).toList();
+    biblesNotifier.value = biblesDB;
   }
 
-  // Future<void> loadBooks() async {
-  //   var booksDB = await globals.db.getBooks();
-  //   booksNotifier.value = booksDB.map((b) => BookData().fromEntry(b)).toList();
-  // }
+  Future<void> loadPassages() async {
+    var passagesDB = await globals.db.getPassages();
+    passagesNotifier.value =
+        passagesDB.map((p) => PassageData().fromEntry(p)).toList();
+  }
+
+  Future<void> loadPrayers() async {
+    var prayersDB = await globals.db.getPrayers();
+    prayersNotifier.value =
+        prayersDB.map((p) => PrayerData().fromEntry(p)).toList();
+  }
 
   @override
   State<StatefulWidget> createState() => _BaseAppState();

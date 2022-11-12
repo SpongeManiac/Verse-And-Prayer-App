@@ -3,6 +3,7 @@ import 'package:verse_prayer_study/models/bookData.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
 
 import '../../models/bibleData.dart';
+import '../../models/verseData.dart';
 
 part 'database.g.dart';
 
@@ -64,11 +65,16 @@ class Verses extends Table {
   TextColumn get scripture => text().withDefault(const Constant(''))();
 }
 
-@DataClassName('SavedVerseDB')
-class SavedVerses extends Table {
+@DataClassName('PassageDB')
+class Passages extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get startVerse => integer().references(Verses, #id)();
   IntColumn get endVerse => integer().references(Verses, #id)();
+  TextColumn get bible => text()();
+  TextColumn get book => text()();
+  TextColumn get start => text()();
+  TextColumn get end => text()();
+  TextColumn get passage => text()();
 }
 
 // Data
@@ -115,7 +121,7 @@ class Prayers extends Table {
   Books,
   //BookVerses,
   Verses,
-  SavedVerses,
+  Passages,
   Prayers,
 ])
 class SharedDatabase extends _$SharedDatabase {
@@ -182,7 +188,7 @@ class SharedDatabase extends _$SharedDatabase {
         .get();
   }
 
-  Future<List<BookDB>> getBibleBooks(BibleData? bible) async {
+  Future<List<BookDB>> getBibleBooks(BibleDB? bible) async {
     if (bible == null) {
       print('null bible provided');
       return <BookDB>[];
@@ -195,7 +201,7 @@ class SharedDatabase extends _$SharedDatabase {
             books.id.equalsExp(bibleBooks.book),
           ),
         ],
-      )..where(bibleBooks.bible.equals(bible.id!)))
+      )..where(bibleBooks.bible.equals(bible.id)))
           .get();
       var booksList = booksQuery.map((result) {
         return result.readTable(books);
@@ -253,26 +259,110 @@ class SharedDatabase extends _$SharedDatabase {
   }
 
   Future<VerseDB?> getSpecificVerse(
-      BibleData bible, BookData book, int chapter, int verse) async {
-    if (bible.id != null && book.id != null) {
-      final a = alias(bibleVerses, 'a');
-      final b = alias(verses, 'b');
-      final versesQuery = await (select(a).join([
-        innerJoin(
-          b,
-          b.id.equalsExp(a.verse),
-        )
-      ])
-            ..where(a.bible.equals(bible.id!) &
-                b.book.equals(book.id!) &
-                b.chapter.equals(chapter) &
-                b.verse.equals(verse)))
-          .get();
-      var list = versesQuery.map((row) => row.readTable(b)).toList();
-      return list.isEmpty ? null : list[0];
-    } else {
-      return null;
+      BibleDB bible, BookDB book, int chapter, int verse) async {
+    final a = alias(bibleVerses, 'a');
+    final b = alias(verses, 'b');
+    final versesQuery = await (select(a).join([
+      innerJoin(
+        b,
+        b.id.equalsExp(a.verse),
+      )
+    ])
+          ..where(a.bible.equals(bible.id) &
+              b.book.equals(book.id) &
+              b.chapter.equals(chapter) &
+              b.verse.equals(verse)))
+        .get();
+    var list = versesQuery.map((row) => row.readTable(b)).toList();
+    return list.isEmpty ? null : list[0];
+  }
+
+  Future<List<VerseDB>> getVerseRange(VerseDB vStart, VerseDB vEnd) async {
+    final a = alias(verses, 'a');
+    final versesQuery = await (select(a)
+          ..where((v) => v.id.isBetweenValues(vStart.id, vEnd.id)))
+        .get();
+    return versesQuery;
+  }
+
+  //passages
+  Future<List<PassageDB>> getPassages() async {
+    return await (select(passages)
+          ..orderBy([(t) => OrderingTerm(expression: t.id)]))
+        .get();
+  }
+
+  Future<bool> passageExists(int id) async {
+    if (id < 1) {
+      return false;
     }
+    var count = countAll(filter: passages.id.equals(id));
+    var res = await (selectOnly(passages)..addColumns([count]))
+        .map((p) => p.read(count))
+        .get();
+    return res.length == 1 ? true : false;
+  }
+
+  Future<PassageDB?> getPassage(int id) async {
+    return await (select(passages)
+          ..where((passage) => passage.id.equals(id))
+          ..limit(1))
+        .getSingleOrNull();
+  }
+
+  Future<int> setPassage(PassagesCompanion passage) async {
+    return await into(passages).insertOnConflictUpdate(passage);
+  }
+
+  Future<bool> updatePassage(PassageDB passage) async {
+    return await update(passages).replace(passage);
+  }
+
+  Future<int> delPassage(int id) async {
+    return await (delete(passages)
+          ..where(
+            (p) => p.id.equals(id),
+          ))
+        .go();
+  }
+
+  //prayers
+
+  Future<List<PrayerDB>> getPrayers() async {
+    return await (select(prayers)
+          ..orderBy([(p) => OrderingTerm(expression: p.name)]))
+        .get();
+  }
+
+  Future<bool> prayerExists(int id) async {
+    var count = countAll(filter: prayers.id.equals(id));
+    var res = await (selectOnly(prayers)
+          ..addColumns([count])
+          ..map(
+            (p) => p.read(count),
+          ))
+        .get();
+    return res.length == 1 ? true : false;
+  }
+
+  Future<PrayerDB?> getPrayer(int id) async {
+    return await (select(prayers)
+          ..where(
+            (p) => p.id.equals(id),
+          ))
+        .getSingleOrNull();
+  }
+
+  Future<int> setPrayer(PrayersCompanion prayer) async {
+    return await into(prayers).insertOnConflictUpdate(prayer);
+  }
+
+  Future<bool> updatePrayer(PrayerDB prayer) async {
+    return await update(prayers).replace(prayer);
+  }
+
+  Future<int> delPrayer(int id) async {
+    return await (delete(prayers)..where((p) => p.id.equals(id))).go();
   }
 
   // //playlists

@@ -23,10 +23,10 @@ class BookData extends BaseDataDB {
   @override
   BookData fromEntry(DataClass dataclass) {
     BookDB data = dataclass as BookDB;
-    var copy = this.copy();
-    copy.id = data.id;
-    copy.name = data.name;
-    return copy;
+    return BookData(
+      id: data.id,
+      name: data.name,
+    );
   }
 
   @override
@@ -45,7 +45,5 @@ class BookData extends BaseDataDB {
   }
 
   @override
-  void saveData() {
-    // TODO: implement saveData
-  }
+  Future<void> saveData() async {}
 }

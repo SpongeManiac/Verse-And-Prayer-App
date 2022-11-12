@@ -22,12 +22,12 @@ abstract class ThemedPage extends StatefulWidget {
       app.floatingActionNotifier;
   HideableFloatingAction floatingActionButton;
 
-  void initFloatingAction([void Function()? action, Icon? icon]) {
+  void initFloatingAction(bool visible, [void Function()? action, Icon? icon]) {
     //Run code after page is done building
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //update hideableFloatingAction's data
       actionButtonNotifier.value = HideableFloatingActionData(
-        true,
+        visible,
         action,
         icon,
       );

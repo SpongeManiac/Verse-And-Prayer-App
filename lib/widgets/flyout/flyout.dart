@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/customIcons.dart';
 import 'flyoutItem.dart';
 import '../../shared/globals.dart' show app;
 import '../../screens/themedPage.dart';
@@ -46,15 +47,15 @@ class Flyout extends StatelessWidget {
                     onTapped: () => navigate(context, '/'),
                   ),
                   FlyoutItem(
-                    icon: Icons.music_note_rounded,
-                    text: 'Verses',
-                    onTapped: () => navigate(context, '/verses'),
+                    icon: Icons.short_text_rounded,
+                    text: 'Passages',
+                    onTapped: () => navigate(context, '/passages'),
                   ),
-                  // FlyoutItem(
-                  //   icon: Icons.album_rounded,
-                  //   text: 'Albums',
-                  //   onTapped: () => navigate(context, '/albums'),
-                  // ),
+                  FlyoutItem(
+                    icon: CustomIcons.praying_hands,
+                    text: 'Prayers',
+                    onTapped: () => navigate(context, '/prayers'),
+                  ),
                   // FlyoutItem(
                   //   icon: Icons.queue_music_rounded,
                   //   text: 'Playlists',
