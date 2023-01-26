@@ -2,10 +2,6 @@
 
 part of 'database.dart';
 
-// **************************************************************************
-// DriftDatabaseGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
 class SettingsDB extends DataClass implements Insertable<SettingsDB> {
   final int id;
@@ -167,36 +163,43 @@ class $SettingsTable extends Settings
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $SettingsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
       defaultValue: const Constant(1));
-  final VerificationMeta _themeMeta = const VerificationMeta('theme');
+  static const VerificationMeta _themeMeta = const VerificationMeta('theme');
   @override
   late final GeneratedColumn<int> theme = GeneratedColumn<int>(
       'theme', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
-  final VerificationMeta _colorMeta = const VerificationMeta('color');
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
   @override
   late final GeneratedColumn<int> color = GeneratedColumn<int>(
       'color', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0xFF000000));
-  final VerificationMeta _darkmodeMeta = const VerificationMeta('darkmode');
+  static const VerificationMeta _darkmodeMeta =
+      const VerificationMeta('darkmode');
   @override
-  late final GeneratedColumn<bool> darkmode = GeneratedColumn<bool>(
-      'darkmode', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK ("darkmode" IN (0, 1))',
-      defaultValue: const Constant(false));
+  late final GeneratedColumn<bool> darkmode =
+      GeneratedColumn<bool>('darkmode', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("darkmode" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [id, theme, color, darkmode];
   @override
@@ -232,13 +235,13 @@ class $SettingsTable extends Settings
   SettingsDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SettingsDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      theme: attachedDatabase.options.types
+      theme: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}theme'])!,
-      color: attachedDatabase.options.types
+      color: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
-      darkmode: attachedDatabase.options.types
+      darkmode: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}darkmode'])!,
     );
   }
@@ -410,24 +413,27 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BiblesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _languageMeta = const VerificationMeta('language');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _languageMeta =
+      const VerificationMeta('language');
   @override
   late final GeneratedColumn<String> language = GeneratedColumn<String>(
       'language', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _abrMeta = const VerificationMeta('abr');
+  static const VerificationMeta _abrMeta = const VerificationMeta('abr');
   @override
   late final GeneratedColumn<String> abr = GeneratedColumn<String>(
       'abr', aliasedName, false,
@@ -473,13 +479,13 @@ class $BiblesTable extends Bibles with TableInfo<$BiblesTable, BibleDB> {
   BibleDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BibleDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      language: attachedDatabase.options.types
+      language: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}language'])!,
-      name: attachedDatabase.options.types
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      abr: attachedDatabase.options.types
+      abr: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}abr'])!,
     );
   }
@@ -602,14 +608,16 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BooksTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -643,9 +651,9 @@ class $BooksTable extends Books with TableInfo<$BooksTable, BookDB> {
   BookDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.options.types
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
     );
   }
@@ -792,27 +800,31 @@ class $BibleBooksTable extends BibleBooks
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BibleBooksTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _bibleMeta = const VerificationMeta('bible');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _bibleMeta = const VerificationMeta('bible');
   @override
   late final GeneratedColumn<int> bible = GeneratedColumn<int>(
       'bible', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "bibles" ("id")');
-  final VerificationMeta _bookMeta = const VerificationMeta('book');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES bibles (id)'));
+  static const VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<int> book = GeneratedColumn<int>(
       'book', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "books" ("id")');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES books (id)'));
   @override
   List<GeneratedColumn> get $columns => [id, bible, book];
   @override
@@ -848,11 +860,11 @@ class $BibleBooksTable extends BibleBooks
   BibleBookDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BibleBookDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      bible: attachedDatabase.options.types
+      bible: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}bible'])!,
-      book: attachedDatabase.options.types
+      book: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}book'])!,
     );
   }
@@ -1043,35 +1055,40 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $VersesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _bookMeta = const VerificationMeta('book');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<int> book = GeneratedColumn<int>(
       'book', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "books" ("id")');
-  final VerificationMeta _chapterMeta = const VerificationMeta('chapter');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES books (id)'));
+  static const VerificationMeta _chapterMeta =
+      const VerificationMeta('chapter');
   @override
   late final GeneratedColumn<int> chapter = GeneratedColumn<int>(
       'chapter', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
-  final VerificationMeta _verseMeta = const VerificationMeta('verse');
+  static const VerificationMeta _verseMeta = const VerificationMeta('verse');
   @override
   late final GeneratedColumn<int> verse = GeneratedColumn<int>(
       'verse', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
-  final VerificationMeta _scriptureMeta = const VerificationMeta('scripture');
+  static const VerificationMeta _scriptureMeta =
+      const VerificationMeta('scripture');
   @override
   late final GeneratedColumn<String> scripture = GeneratedColumn<String>(
       'scripture', aliasedName, false,
@@ -1119,15 +1136,15 @@ class $VersesTable extends Verses with TableInfo<$VersesTable, VerseDB> {
   VerseDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return VerseDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      book: attachedDatabase.options.types
+      book: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}book'])!,
-      chapter: attachedDatabase.options.types
+      chapter: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}chapter'])!,
-      verse: attachedDatabase.options.types
+      verse: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}verse'])!,
-      scripture: attachedDatabase.options.types
+      scripture: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}scripture'])!,
     );
   }
@@ -1274,27 +1291,31 @@ class $BibleVersesTable extends BibleVerses
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BibleVersesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _bibleMeta = const VerificationMeta('bible');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _bibleMeta = const VerificationMeta('bible');
   @override
   late final GeneratedColumn<int> bible = GeneratedColumn<int>(
       'bible', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "bibles" ("id")');
-  final VerificationMeta _verseMeta = const VerificationMeta('verse');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES bibles (id)'));
+  static const VerificationMeta _verseMeta = const VerificationMeta('verse');
   @override
   late final GeneratedColumn<int> verse = GeneratedColumn<int>(
       'verse', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "verses" ("id")');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES verses (id)'));
   @override
   List<GeneratedColumn> get $columns => [id, bible, verse];
   @override
@@ -1330,11 +1351,11 @@ class $BibleVersesTable extends BibleVerses
   BibleVerseDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BibleVerseDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      bible: attachedDatabase.options.types
+      bible: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}bible'])!,
-      verse: attachedDatabase.options.types
+      verse: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}verse'])!,
     );
   }
@@ -1600,48 +1621,55 @@ class $PassagesTable extends Passages
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $PassagesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _startVerseMeta = const VerificationMeta('startVerse');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _startVerseMeta =
+      const VerificationMeta('startVerse');
   @override
   late final GeneratedColumn<int> startVerse = GeneratedColumn<int>(
       'start_verse', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "verses" ("id")');
-  final VerificationMeta _endVerseMeta = const VerificationMeta('endVerse');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES verses (id)'));
+  static const VerificationMeta _endVerseMeta =
+      const VerificationMeta('endVerse');
   @override
   late final GeneratedColumn<int> endVerse = GeneratedColumn<int>(
       'end_verse', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints: 'REFERENCES "verses" ("id")');
-  final VerificationMeta _bibleMeta = const VerificationMeta('bible');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES verses (id)'));
+  static const VerificationMeta _bibleMeta = const VerificationMeta('bible');
   @override
   late final GeneratedColumn<String> bible = GeneratedColumn<String>(
       'bible', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _bookMeta = const VerificationMeta('book');
+  static const VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<String> book = GeneratedColumn<String>(
       'book', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _startMeta = const VerificationMeta('start');
+  static const VerificationMeta _startMeta = const VerificationMeta('start');
   @override
   late final GeneratedColumn<String> start = GeneratedColumn<String>(
       'start', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _endMeta = const VerificationMeta('end');
+  static const VerificationMeta _endMeta = const VerificationMeta('end');
   @override
   late final GeneratedColumn<String> end = GeneratedColumn<String>(
       'end', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _passageMeta = const VerificationMeta('passage');
+  static const VerificationMeta _passageMeta =
+      const VerificationMeta('passage');
   @override
   late final GeneratedColumn<String> passage = GeneratedColumn<String>(
       'passage', aliasedName, false,
@@ -1714,21 +1742,21 @@ class $PassagesTable extends Passages
   PassageDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PassageDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      startVerse: attachedDatabase.options.types
+      startVerse: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}start_verse'])!,
-      endVerse: attachedDatabase.options.types
+      endVerse: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}end_verse'])!,
-      bible: attachedDatabase.options.types
+      bible: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}bible'])!,
-      book: attachedDatabase.options.types
+      book: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}book'])!,
-      start: attachedDatabase.options.types
+      start: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}start'])!,
-      end: attachedDatabase.options.types
+      end: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}end'])!,
-      passage: attachedDatabase.options.types
+      passage: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}passage'])!,
     );
   }
@@ -1873,19 +1901,21 @@ class $PrayersTable extends Prayers with TableInfo<$PrayersTable, PrayerDB> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $PrayersTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _prayerMeta = const VerificationMeta('prayer');
+  static const VerificationMeta _prayerMeta = const VerificationMeta('prayer');
   @override
   late final GeneratedColumn<String> prayer = GeneratedColumn<String>(
       'prayer', aliasedName, false,
@@ -1925,11 +1955,11 @@ class $PrayersTable extends Prayers with TableInfo<$PrayersTable, PrayerDB> {
   PrayerDB map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PrayerDB(
-      id: attachedDatabase.options.types
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.options.types
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      prayer: attachedDatabase.options.types
+      prayer: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}prayer'])!,
     );
   }
@@ -1951,7 +1981,7 @@ abstract class _$SharedDatabase extends GeneratedDatabase {
   late final $PassagesTable passages = $PassagesTable(this);
   late final $PrayersTable prayers = $PrayersTable(this);
   @override
-  Iterable<TableInfo<Table, dynamic>> get allTables =>
+  Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [

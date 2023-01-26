@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:verse_prayer_study/models/settingsData.dart';
-import '../models/bibleData.dart';
-import '../models/bookData.dart';
 import '../models/passageData.dart';
 import '../models/prayerData.dart';
 import '../platform/database/database.dart';
@@ -11,7 +9,6 @@ import '../screens/prayersPage.dart';
 import '../screens/settingsPage.dart';
 import 'colorMaterializer.dart';
 import 'globals.dart' as globals;
-import 'package:path/path.dart' as p;
 
 import '../screens/pageNav.dart';
 import '../screens/themedPage.dart';

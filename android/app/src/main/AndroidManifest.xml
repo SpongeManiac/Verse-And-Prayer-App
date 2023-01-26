@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.verse_prayer_study">
    <application
-        android:label="verse_prayer_study"
+        android:label="Verse And Prayer Study"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

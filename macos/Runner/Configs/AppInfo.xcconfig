@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = verse_prayer_study
+PRODUCT_NAME = Verse And Prayer Study;
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.versePrayerStudy
+PRODUCT_BUNDLE_IDENTIFIER = com.rpgrogan.free.verseprayerstudy;
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.
