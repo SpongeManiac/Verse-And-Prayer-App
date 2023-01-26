@@ -69,11 +69,11 @@ class PageNav extends StatefulWidget {
   }
 
   void goto(BuildContext context, String route, [bool popNav = false]) {
-    if (app.routes.containsKey(route)) {
+    if (route == '/' || app.routes.containsKey(route)) {
       if (route != app.currentRoute) {
         print('resetting back button');
         androidOnBack = () async {
-          goto(context, '/');
+          goto(context, '/passages');
           return false;
         };
         app.currentRoute = route;
@@ -116,12 +116,16 @@ class _PageNavState extends State<PageNav> with WindowListener {
         ValueListenableBuilder<String>(
           valueListenable: app.routeNotifier,
           builder: (_, newRoute, __) {
+            //replace root with homeRoute
+            newRoute = newRoute == '/' ? app.homeRoute : newRoute;
+            //set build function
             ThemedPage Function(BuildContext)? builder = app.routes[newRoute];
             if (builder == null) {
-              builder = app.routes['/'];
-              app.currentRoute = '/';
+              //reset current route to home route
+              builder = app.routes[app.homeRoute];
+              app.currentRoute = app.homeRoute;
             } else {
-              //reset back button function
+              //set current route
               app.currentRoute = newRoute;
             }
             return WillPopScope(

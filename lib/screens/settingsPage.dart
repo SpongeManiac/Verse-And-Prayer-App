@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/settingsData.dart';
+import '../platform/desktopApp.dart';
 import '../shared/colorMaterializer.dart';
 import 'themedPage.dart';
 import '../shared/globals.dart' as globals;
@@ -201,6 +202,16 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                 ),
+                Text('Database path:'),
+                FutureBuilder(
+                    future: (widget.app as DesktopApp).dbPath(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Text(snapshot.data!);
+                      } else {
+                        return Text('');
+                      }
+                    }),
               ],
             ),
           ),

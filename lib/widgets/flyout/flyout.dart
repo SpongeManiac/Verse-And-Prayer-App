@@ -41,11 +41,11 @@ class Flyout extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  FlyoutItem(
-                    icon: Icons.home_rounded,
-                    text: 'Home',
-                    onTapped: () => navigate(context, '/'),
-                  ),
+                  // FlyoutItem(
+                  //   icon: Icons.home_rounded,
+                  //   text: 'Home',
+                  //   onTapped: () => navigate(context, '/'),
+                  // ),
                   FlyoutItem(
                     icon: Icons.short_text_rounded,
                     text: 'Passages',

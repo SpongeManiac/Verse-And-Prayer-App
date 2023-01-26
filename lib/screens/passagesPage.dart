@@ -20,8 +20,10 @@ class PassagesPage extends ThemedPage {
   void initState(BuildContext context) {
     super.initState(context);
     setAndroidBack(() async {
-      app.navigation.goto(context, '/');
-      return false;
+      //goto home/root route
+      //app.navigation.goto(context, '/');
+      return await app.navigation.exitDialog(context);
+      //return false;
     });
   }
 
@@ -43,7 +45,7 @@ class _PassagesPageState extends CRUDState<PassageData> {
               value: b,
               child: Row(
                 children: [
-                  Text('(${b.language})'),
+                  Text('(${b.language}) '),
                   Text(b.name),
                 ],
               ),

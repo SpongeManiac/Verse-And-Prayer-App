@@ -20,7 +20,7 @@ BaseApp getApp() {
 class DesktopApp extends BaseApp {
   DesktopApp({super.key, super.navTitle}) : super();
 
-  final dbName = 'prayer_and_verse';
+  final dbName = 'verse_and_prayer';
   final dbType = '.sqlite';
 
   Future<Directory> dbFolder() async {
@@ -29,7 +29,6 @@ class DesktopApp extends BaseApp {
 
   Future<String> dbPath() async {
     var path = p.join((await dbFolder()).path, '$dbName$dbType');
-    print('db path: $path');
     return path;
   }
 
@@ -66,6 +65,7 @@ class _DesktopAppState extends State<DesktopApp> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.dbPath());
     //return Text('');
     return ValueListenableBuilder<SettingsData>(
       valueListenable: widget.settingsNotifier,

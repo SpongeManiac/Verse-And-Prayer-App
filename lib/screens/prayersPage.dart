@@ -14,7 +14,9 @@ class PrayersPage extends ThemedPage {
   void initState(BuildContext context) {
     super.initState(context);
     setAndroidBack(() async {
+      //goto home/root route
       app.navigation.goto(context, '/');
+      print('going back to home route');
       return false;
     });
   }

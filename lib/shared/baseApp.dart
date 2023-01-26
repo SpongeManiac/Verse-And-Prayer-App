@@ -53,7 +53,7 @@ class BaseApp extends StatefulWidget {
       ValueNotifier(HideableFloatingActionData(false));
 
   final ValueNotifier<SettingsData> settingsNotifier =
-      ValueNotifier(SettingsData(0, 0, true));
+      ValueNotifier(SettingsData(0, 0xFFFF00FF, true));
 
   final ValueNotifier<bool> loadingNotifier = ValueNotifier<bool>(false);
 
@@ -74,11 +74,13 @@ class BaseApp extends StatefulWidget {
   final ValueNotifier<List<PrayerData>> prayersNotifier =
       ValueNotifier(<PrayerData>[]);
 
-  ValueNotifier<bool> darkMode = ValueNotifier(false);
+  ValueNotifier<bool> darkMode = ValueNotifier(true);
 
+  //sets the route that '/' points to
+  String homeRoute = '/passages';
+  //start navigation on homeRoute
   String currentRoute = '/';
   final Map<String, ThemedPage Function(BuildContext)> routes = {
-    '/': (context) => HomePage(title: 'Home'),
     '/passages': (context) => PassagesPage(
           title: 'Passages',
           floatingActionButton: const HideableFloatingAction(),
@@ -119,8 +121,8 @@ class BaseApp extends StatefulWidget {
     settings ??= const SettingsDB(
       id: 1,
       theme: 0,
-      color: 0xFF000000,
-      darkmode: false,
+      color: 0xFFFF00FF,
+      darkmode: true,
     );
 
     //make sure data is valid

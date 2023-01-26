@@ -1,9 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:verse_prayer_study/models/bookData.dart';
-import 'package:verse_prayer_study/models/settingsData.dart';
 
 import '../../models/bibleData.dart';
-import '../../models/verseData.dart';
 
 part 'database.g.dart';
 
@@ -12,8 +9,8 @@ class Settings extends Table {
   IntColumn get id =>
       integer().autoIncrement().withDefault(const Constant(1))();
   IntColumn get theme => integer().withDefault(const Constant(0))();
-  IntColumn get color => integer().withDefault(const Constant(0xFF000000))();
-  BoolColumn get darkmode => boolean().withDefault(const Constant(false))();
+  IntColumn get color => integer().withDefault(const Constant(0xFFFF00FF))();
+  BoolColumn get darkmode => boolean().withDefault(const Constant(true))();
 }
 
 @DataClassName('BibleDB')
@@ -43,13 +40,6 @@ class Books extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withDefault(const Constant(''))();
 }
-
-// @DataClassName('BookVerseDB')
-// class BookVerses extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   IntColumn get book => integer().references(Books, #id)();
-//   IntColumn get verse => integer().references(Verses, #id)();
-// }
 
 @DataClassName('VerseDB')
 class Verses extends Table {
@@ -87,31 +77,6 @@ class Prayers extends Table {
   //text
   TextColumn get prayer => text()();
 }
-
-// @DataClassName('BookVerseDB')
-// class BookVerse extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   IntColumn get book => integer().references(Books, #id)();
-//   IntColumn get verse => integer().references(Verses, #id)();
-// }
-
-// @DataClassName('AlbumSongDataDB')
-// class AlbumSongs extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   IntColumn get album => integer().references(Albums, #id)();
-//   IntColumn get song => integer().references(Songs, #id)();
-// }
-
-// //streams
-// @DataClassName('StreamDataDB')
-// class Streams extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   TextColumn get name => text().withLength(min: 0, max: 128)();
-//   TextColumn get description =>
-//       text().withLength(min: 0, max: 1024).withDefault(const Constant(''))();
-//   TextColumn get streamURL =>
-//       text().withLength(min: 0, max: 1024).withDefault(const Constant(''))();
-// }
 
 @DriftDatabase(tables: [
   Settings,
